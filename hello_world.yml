@@ -3,5 +3,5 @@
   tasks:
     - name: Hello Message
       debug:
-        msg: "Hello World! - this is a copy of the ansible-tower-samples repo"
+        msg: "Hello World! - copied from the ansible-tower-samples repo"
 

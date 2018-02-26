@@ -1,2 +1,2 @@
-# copy of ansible-tower-samples
-Copy of Ansible Tower Playbook Samples
+# CS Grey Box MVP
+Ansible playbooks for the CS grey box MVP

@@ -4,4 +4,5 @@
     - name: Hello Message
       debug:
         msg: "Hello World!"
+        msg: "copy of ansible-tower-samples repo"
 

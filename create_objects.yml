@@ -1,5 +1,6 @@
 - name: Create Database Objects
   hosts: localhost
+  vars:
   tasks:
     - name: drop sequence
       oracle_sql:

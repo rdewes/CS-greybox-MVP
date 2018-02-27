@@ -9,4 +9,5 @@
         host:         cs-greybox-mvp-dbcs-1 
         port:         1521 
         service_name: pdb1.588919103.oraclecloud.internal 
-        sql:          'select * from dual ; select sysdate from dual;'
+        sql:          'select * from dual'
+        sql:          'select sysdate from dual'

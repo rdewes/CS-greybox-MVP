@@ -1,17 +1,17 @@
 - name: Create Database Objects
   hosts: localhost
   vars:
-    username:     scott
-    password:     tiger
-    host:         cs-greybox-mvp-dbcs-1
-    service_name: pdb1.588919103.oraclecloud.internal
+    username:         scott
+    password:         tiger
+    dbhost:           cs-greybox-mvp-dbcs-1
+    service_name:     pdb1.588919103.oraclecloud.internal
     
   tasks:
     - name: drop sequence, if it exists
       oracle_sql: 
         username:     "{{ username }}" 
         password:     "{{ password }}" 
-        host:         "{{ host }}" 
+        host:         "{{ dbhost }}" 
         service_name: "{{ service_name }}" 
         sql:          >
                       DECLARE
@@ -27,19 +27,19 @@
                       
     - name: create sequence
       oracle_sql: 
-        username:     scott 
-        password:     tiger 
-        host:         cs-greybox-mvp-dbcs-1 
-        service_name: pdb1.588919103.oraclecloud.internal 
+        username:     "{{ username }}" 
+        password:     "{{ password }}" 
+        host:         "{{ dbhost }}" 
+        service_name: "{{ service_name }}" 
         sql:          >
                       create sequence api_test_s
 
     - name: drop table, if it exists
       oracle_sql: 
-        username:     scott 
-        password:     tiger 
-        host:         cs-greybox-mvp-dbcs-1 
-        service_name: pdb1.588919103.oraclecloud.internal 
+        username:     "{{ username }}" 
+        password:     "{{ password }}" 
+        host:         "{{ dbhost }}" 
+        service_name: "{{ service_name }}" 
         sql:          >
                       DECLARE
                         does_not_exist   EXCEPTION;
@@ -54,10 +54,10 @@
                       
     - name: create table
       oracle_sql: 
-        username:     scott 
-        password:     tiger 
-        host:         cs-greybox-mvp-dbcs-1 
-        service_name: pdb1.588919103.oraclecloud.internal 
+        username:     "{{ username }}" 
+        password:     "{{ password }}" 
+        host:         "{{ dbhost }}" 
+        service_name: "{{ service_name }}" 
         sql:          >
                       create table api_test_t 
                         (

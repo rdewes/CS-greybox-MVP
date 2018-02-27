@@ -19,6 +19,7 @@
                         THEN
                           NULL;
                       END;
+                      
     - name: create sequence
       oracle_sql: 
         username:     scott 

@@ -29,3 +29,37 @@
         service_name: pdb1.588919103.oraclecloud.internal 
         sql:          >
                       create sequence api_test_s
+
+    - name: drop table, if it exists
+      oracle_sql: 
+        username:     scott 
+        password:     tiger 
+        host:         cs-greybox-mvp-dbcs-1 
+        port:         1521 
+        service_name: pdb1.588919103.oraclecloud.internal 
+        sql:          >
+                      DECLARE
+                        does_not_exist   EXCEPTION;
+                        PRAGMA EXCEPTION_INIT (does_not_exist, -924);
+                      BEGIN
+                        EXECUTE IMMEDIATE 'drop table api_test_t';
+                      EXCEPTION
+                        WHEN does_not_exist
+                        THEN
+                          NULL;
+                      END;
+                      
+    - name: create table
+      oracle_sql: 
+        username:     scott 
+        password:     tiger 
+        host:         cs-greybox-mvp-dbcs-1 
+        port:         1521 
+        service_name: pdb1.588919103.oraclecloud.internal 
+        sql:          >
+                      create table api_test_t 
+                        (
+                         seq_no      number
+                        ,insert_date date
+                        ,message     varchar2(1000)
+                        )

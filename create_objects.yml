@@ -3,4 +3,4 @@
   vars:
   tasks:
     - name: create sequence
-      oracle_sql: username=scott password=tiger host=cs-greybox-mvp-dbcs-1 port=1521 service_name=pdb1.588919103.oraclecloud.internal sql='create sequence api_test_s'
+      oracle_sql: username=scott password=tiger host=cs-greybox-mvp-dbcs-1 port=1521 service_name=pdb1.588919103.oraclecloud.internal script=./sql/create_objects.sql

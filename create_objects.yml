@@ -20,4 +20,3 @@
                         THEN
                           NULL;
                       END;
-                      /

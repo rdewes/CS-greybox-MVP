@@ -9,10 +9,10 @@
   tasks:
     - name: drop sequence, if it exists
       oracle_sql: 
-        username:     {{ username }} 
-        password:     {{ password }} 
-        host:         {{ host }} 
-        service_name: {{ service_name }} 
+        username:     "{{ username }}" 
+        password:     "{{ password }}" 
+        host:         "{{ host }}" 
+        service_name: "{{ service_name }}" 
         sql:          >
                       DECLARE
                         does_not_exist   EXCEPTION;

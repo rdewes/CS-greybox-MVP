@@ -15,14 +15,13 @@
         service_name: "{{ service_name }}" 
         sql:          >
                       DECLARE
-                        does_not_exist   EXCEPTION;
+                        does_not_exist EXCEPTION;
                         PRAGMA EXCEPTION_INIT (does_not_exist, -2289);
                       BEGIN
                         EXECUTE IMMEDIATE 'drop sequence api_test_s';
                       EXCEPTION
                         WHEN does_not_exist
-                        THEN
-                          NULL;
+                        THEN NULL;
                       END;
                       
     - name: create sequence
@@ -42,14 +41,13 @@
         service_name: "{{ service_name }}" 
         sql:          >
                       DECLARE
-                        does_not_exist   EXCEPTION;
+                        does_not_exist EXCEPTION;
                         PRAGMA EXCEPTION_INIT (does_not_exist, -924);
                       BEGIN
                         EXECUTE IMMEDIATE 'drop table api_test_t';
                       EXCEPTION
                         WHEN does_not_exist
-                        THEN
-                          NULL;
+                        THEN NULL;
                       END;
                       
     - name: create table

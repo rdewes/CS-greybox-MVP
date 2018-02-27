@@ -13,7 +13,7 @@
                          does_not_exist   EXCEPTION;
                          PRAGMA EXCEPTION_INIT (does_not_exist, -2289);
                        BEGIN
-                         EXECUTE IMMEDIATE 'drop sequence api_test_s';
+                         EXECUTE IMMEDIATE \'drop sequence api_test_s\';
                        EXCEPTION
                          WHEN does_not_exist
                          THEN

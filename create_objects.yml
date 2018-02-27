@@ -2,11 +2,5 @@
   hosts: localhost
   vars:
   tasks:
-    - name: drop sequence
-      oracle_sql:
-        username: "scott"
-        password: "tiger"
-        host: cs-greybox-mvp-dbcs-1
-        port: 1521
-        service_name: pdb1.588919103.oraclecloud.internal
-        sql: 'drop sequence api_test_s'
+    - name: create sequence
+      oracle_sql: username=scott password=tiger host=cs-greybox-mvp-dbcs-1 port=1521 service_name=pdb1.588919103.oraclecloud.internal sql='create sequence api_test_s'

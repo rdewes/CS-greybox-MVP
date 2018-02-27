@@ -1,31 +1,34 @@
-- oracle_sql:
-    username: scott
-    password: tiger
-    host: cs-greybox-mvp-dbcs-1
-    port: 1521
-    service_name: pdb1.588919103.oraclecloud.internal
-    sql: 'drop sequence api_test_s'
+- name: Create Database Objects
+  hosts: all
+  tasks:
+  - oracle_sql:
+      username: scott
+      password: tiger
+      host: cs-greybox-mvp-dbcs-1
+      port: 1521
+      service_name: pdb1.588919103.oraclecloud.internal
+      sql: 'drop sequence api_test_s'
     
-- oracle_sql:
-    username: scott
-    password: tiger
-    host: cs-greybox-mvp-dbcs-1
-    port: 1521
-    service_name: pdb1.588919103.oraclecloud.internal
-    sql: 'drop table api_test_t'
+  - oracle_sql:
+      username: scott
+      password: tiger
+      host: cs-greybox-mvp-dbcs-1
+      port: 1521
+      service_name: pdb1.588919103.oraclecloud.internal
+      sql: 'drop table api_test_t'
     
-- oracle_sql:
-    username: scott
-    password: tiger
-    host: cs-greybox-mvp-dbcs-1
-    port: 1521
-    service_name: pdb1.588919103.oraclecloud.internal
-    sql: 'create sequence api_test_s'
+  - oracle_sql:
+      username: scott
+      password: tiger
+      host: cs-greybox-mvp-dbcs-1
+      port: 1521
+      service_name: pdb1.588919103.oraclecloud.internal
+      sql: 'create sequence api_test_s'
     
-- oracle_sql:
-    username: scott
-    password: tiger
-    host: cs-greybox-mvp-dbcs-1
-    port: 1521
-    service_name: pdb1.588919103.oraclecloud.internal
-    sql: 'create table api_test_t (seq_no number, insert_date date, message varchar2(1000))'
+  - oracle_sql:
+      username: scott
+      password: tiger
+      host: cs-greybox-mvp-dbcs-1
+      port: 1521
+      service_name: pdb1.588919103.oraclecloud.internal
+      sql: 'create table api_test_t (seq_no number, insert_date date, message varchar2(1000))'

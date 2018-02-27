@@ -9,4 +9,4 @@
         host:         cs-greybox-mvp-dbcs-1 
         port:         1521 
         service_name: pdb1.588919103.oraclecloud.internal 
-        script:       ./sql/create_objects.sql
+        sql:          'select * from dual ; select sysdate from dual;'

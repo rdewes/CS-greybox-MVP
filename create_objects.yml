@@ -5,61 +5,59 @@
     password:         tiger
     dbhost:           cs-greybox-mvp-dbcs-1
     service_name:     pdb1.588919103.oraclecloud.internal
-    
-  tasks:
-    - name: drop sequence, if it exists
-      oracle_sql: 
-        username:     "{{ username }}" 
-        password:     "{{ password }}" 
-        host:         "{{ dbhost }}" 
-        service_name: "{{ service_name }}" 
-        sql:          >
-                      DECLARE
-                        does_not_exist EXCEPTION;
-                        PRAGMA EXCEPTION_INIT (does_not_exist, -2289);
-                      BEGIN
-                        EXECUTE IMMEDIATE 'drop sequence api_test_s';
-                      EXCEPTION
-                        WHEN does_not_exist
-                        THEN NULL;
-                      END;
-                      
-    - name: create sequence
-      oracle_sql: 
-        username:     "{{ username }}" 
-        password:     "{{ password }}" 
-        host:         "{{ dbhost }}" 
-        service_name: "{{ service_name }}" 
-        sql:          >
-                      create sequence api_test_s
-
-    - name: drop table, if it exists
-      oracle_sql: 
-        username:     "{{ username }}" 
-        password:     "{{ password }}" 
-        host:         "{{ dbhost }}" 
-        service_name: "{{ service_name }}" 
-        sql:          >
-                      DECLARE
-                        does_not_exist EXCEPTION;
-                        PRAGMA EXCEPTION_INIT (does_not_exist, -924);
-                      BEGIN
-                        EXECUTE IMMEDIATE 'drop table api_test_t';
-                      EXCEPTION
-                        WHEN does_not_exist
-                        THEN NULL;
-                      END;
-                      
-    - name: create table
-      oracle_sql: 
-        username:     "{{ username }}" 
-        password:     "{{ password }}" 
-        host:         "{{ dbhost }}" 
-        service_name: "{{ service_name }}" 
-        sql:          >
-                      create table api_test_t 
+    table_name:       api_test_t
+    seq_name:         api_test_s
+    create_table:     >-
+                      create table {{ api_test_t }} 
                         (
                          seq_no      number
                         ,insert_date date
                         ,message     varchar2(1000)
                         )
+    create_seq:       >-
+                      create sequence {{ api_test_s }}
+    
+  tasks:
+    - name: create table, if it doesn't exist
+      oracle_sql: 
+        username:     "{{ username }}" 
+        password:     "{{ password }}" 
+        host:         "{{ dbhost }}" 
+        service_name: "{{ service_name }}" 
+        sql:          >
+                      DECLARE
+                        t_count INTEGER;
+                        v_sql   VARCHAR2(1000) := '{{ create_table }}';
+                        
+                      BEGIN
+                        SELECT COUNT(*)
+                          INTO t_count
+                          FROM user_tables
+                        WHERE table_name = '{{ table_name }}';
+                        
+                        IF t_count = 0 THEN
+                           EXECUTE IMMEDIATE v_sql;
+                        END IF;
+                      END;
+                      
+    - name: create sequence, if it doesn't exist
+      oracle_sql: 
+        username:     "{{ username }}" 
+        password:     "{{ password }}" 
+        host:         "{{ dbhost }}" 
+        service_name: "{{ service_name }}" 
+        sql:          >
+                      DECLARE
+                        t_count INTEGER;
+                        v_sql   VARCHAR2(1000) := '{{ create_sequence }}';
+                        
+                      BEGIN
+                        SELECT COUNT(*)
+                          INTO t_count
+                          FROM user_sequences
+                        WHERE sequence_name = '{{ sequence_name }}';
+                        
+                        IF t_count = 0 THEN
+                           EXECUTE IMMEDIATE v_sql;
+                        END IF;
+                      END;

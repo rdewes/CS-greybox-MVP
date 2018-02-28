@@ -4,7 +4,7 @@
     pdbname:            TESTPDB1
     sourcedb:           APIPCS
     state:              present
-    username:           system
+    username:           sys
     password:           super45CS#
     service_name:       APIPCS.588919103.oraclecloud.internal
     hostname:           cs-greybox-mvp-dbcs-1

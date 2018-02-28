@@ -1,0 +1,21 @@
+- name: Insert a Row
+  hosts: localhost
+  vars:
+    username:         scott
+    password:         tiger
+    dbhost:           cs-greybox-mvp-dbcs-1
+    service_name:     pdb1.588919103.oraclecloud.internal
+    
+  tasks:
+    - name: insert a row into the test table
+      oracle_sql: 
+        username:     "{{ username }}" 
+        password:     "{{ password }}" 
+        host:         "{{ dbhost }}" 
+        service_name: "{{ service_name }}" 
+        sql:          >
+                      insert into api_test_t
+                        values (api_test_s.nextval
+                               ,sysdate
+                               ,'message goes here - will be parameterised eventually, maybe'
+                               )

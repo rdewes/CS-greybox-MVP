@@ -1,21 +1,23 @@
 - name: Create a PDB
   hosts: localhost
   vars:
-    name:               TESTPDB1
+    pdbname:            TESTPDB1
     sourcedb:           APIPCS
     state:              present
     username:           system
     password:           super45CS#
     service_name:       APIPCS.588919103.oraclecloud.internal
     hostname:           cs-greybox-mvp-dbcs-1
+    oracle_home:        /u01/app/oracle/product/12.2.0/dbhome_1
     
   tasks:
     - name: create the pdb
       oracle_pdb: 
-        name:           "{{ name }}"
+        name:           "{{ pdbname }}"
         sourcedb:       "{{ sourcedb }}"
         state:          "{{ state }}"
         username:       "{{ username }}"
         password:       "{{ password }}"
         service_name:   "{{ service_name }}"
         hostname:       "{{ hostname }}"
+        oracle_home:    "{{ oracle_home }}"

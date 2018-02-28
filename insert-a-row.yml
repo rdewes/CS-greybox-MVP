@@ -5,6 +5,7 @@
     password:         tiger
     dbhost:           cs-greybox-mvp-dbcs-1
     service_name:     pdb1.588919103.oraclecloud.internal
+    message:          'this is a message'
     
   tasks:
     - name: insert a row into the test table
@@ -17,5 +18,5 @@
                       insert into api_test_t
                         values (api_test_s.nextval
                                ,sysdate
-                               ,'message goes here - will be parameterised eventually, maybe'
+                               ,'"{{ message }}"'
                                )

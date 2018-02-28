@@ -6,7 +6,7 @@
     dbhost:           cs-greybox-mvp-dbcs-1
     service_name:     pdb1.588919103.oraclecloud.internal
     table_name:       api_test_t
-    column_list:      >-
+    tab_col_list:     >-
                       seq_no      number,
                       insert_date date,
                       message     varchar2(1000)                      
@@ -14,7 +14,7 @@
     create_table:     >-
                       create table {{ table_name }} 
                         (
-                        {{ column_list }}
+                        {{ tab_col_list }}
                         )
     create_seq:       >-
                       create sequence {{ sequence_name }}
@@ -51,13 +51,13 @@
         sql:          >
                       DECLARE
                         t_count INTEGER;
-                        v_sql   VARCHAR2(1000) := '{{ create_sequence }}';
+                        v_sql   VARCHAR2(1000) := '{{ create_seq }}';
                         
                       BEGIN
                         SELECT COUNT(*)
                         INTO   t_count
                         FROM   user_sequences
-                        WHERE  UPPER(sequence_name) = UPPER('{{ sequence_name }}');
+                        WHERE  UPPER(sequence_name) = UPPER('{{ seq_name }}');
                         
                         IF t_count = 0 THEN
                           EXECUTE IMMEDIATE v_sql;

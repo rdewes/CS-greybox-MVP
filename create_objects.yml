@@ -28,16 +28,16 @@
         service_name: "{{ service_name }}" 
         sql:          >
                       DECLARE
-                        t_count INTEGER;
+                        v_count INTEGER;
                         v_sql   VARCHAR2(1000) := '{{ create_table }}';
                         
                       BEGIN
                         SELECT COUNT(*)
-                        INTO   t_count
+                        INTO   v_count
                         FROM   user_tables
                         WHERE  UPPER(table_name) = UPPER('{{ table_name }}');
                         
-                        IF t_count = 0 THEN
+                        IF v_count = 0 THEN
                           EXECUTE IMMEDIATE v_sql;
                         END IF;
                       END;
@@ -50,16 +50,16 @@
         service_name: "{{ service_name }}" 
         sql:          >
                       DECLARE
-                        t_count INTEGER;
+                        v_count INTEGER;
                         v_sql   VARCHAR2(1000) := '{{ create_sequence }}';
                         
                       BEGIN
                         SELECT COUNT(*)
-                        INTO   t_count
+                        INTO   v_count
                         FROM   user_sequences
                         WHERE  UPPER(sequence_name) = UPPER('{{ sequence_name }}');
                         
-                        IF t_count = 0 THEN
+                        IF v_count = 0 THEN
                           EXECUTE IMMEDIATE v_sql;
                         END IF;
                       END;

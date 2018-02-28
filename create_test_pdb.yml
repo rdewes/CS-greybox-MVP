@@ -3,7 +3,7 @@
   vars:
     pdbname:            TESTPDB1
     sourcedb:           APIPCS
-    state:              absent
+    state:              present
     username:           sys
     password:           super45CS#
     mode:               sysdba

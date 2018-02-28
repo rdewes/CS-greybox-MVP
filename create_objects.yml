@@ -35,7 +35,7 @@
                         SELECT COUNT(*)
                         INTO   t_count
                         FROM   user_tables
-                        WHERE  table_name = '{{ table_name }}';
+                        WHERE  UPPER(table_name) = UPPER('{{ table_name }}');
                         
                         IF t_count = 0 THEN
                           EXECUTE IMMEDIATE v_sql;
@@ -57,7 +57,7 @@
                         SELECT COUNT(*)
                         INTO   t_count
                         FROM   user_sequences
-                        WHERE  sequence_name = '{{ sequence_name }}';
+                        WHERE  UPPER(sequence_name) = UPPER('{{ sequence_name }}');
                         
                         IF t_count = 0 THEN
                           EXECUTE IMMEDIATE v_sql;

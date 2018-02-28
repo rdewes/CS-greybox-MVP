@@ -6,7 +6,7 @@
     dbhost:           cs-greybox-mvp-dbcs-1
     service_name:     pdb1.588919103.oraclecloud.internal
     message:          >-
-                      this is a message, it'''s parameterised in the playbook
+                      this is a message, it''s parameterised in the playbook
     
   tasks:
     - name: insert a row into the test table

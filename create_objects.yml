@@ -3,7 +3,7 @@
   vars:
     username:         scott
     password:         tiger
-    dbhost:           cs-greybox-mvp-dbcs-1
+    dbhost:           {{ host }}
     service_name:     pdb1.588919103.oraclecloud.internal
     table_name:       api_test_t
     tab_col_list:     >-

@@ -1,1 +1,17 @@
-
+- name: Select Rows From Test Table
+  hosts: localhost
+  vars:
+    username:         scott
+    password:         tiger
+    dbhost:           cs-greybox-mvp-dbcs-1
+    service_name:     pdb1.588919103.oraclecloud.internal
+    
+  tasks:
+    - name: select the contents of the test table
+      oracle_sql: 
+        username:     "{{ username }}" 
+        password:     "{{ password }}" 
+        host:         "{{ dbhost }}" 
+        service_name: "{{ service_name }}" 
+        sql:          >
+                      select * from api_test_t

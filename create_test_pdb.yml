@@ -10,7 +10,6 @@
     service_name:       APIPCS.588919103.oraclecloud.internal
     hostname:           cs-greybox-mvp-dbcs-1
     oracle_home:        /u01/app/oracle/product/12.2.0/dbhome_1
-    datafile_dest:      /u02/app/oracle/oradata/{{ sourcedb }}/{{ pdbname }}
     
   tasks:
     - name: create the pdb

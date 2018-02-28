@@ -10,13 +10,13 @@
                       seq_no      number,
                       insert_date date,
                       message     varchar2(1000)                      
-    seq_name:         api_test_s
+    sequence_name:    api_test_s
     create_table:     >-
                       create table {{ table_name }} 
                         (
                         {{ tab_col_list }}
                         )
-    create_seq:       >-
+    create_sequence:  >-
                       create sequence {{ sequence_name }}
     
   tasks:
@@ -51,13 +51,13 @@
         sql:          >
                       DECLARE
                         t_count INTEGER;
-                        v_sql   VARCHAR2(1000) := '{{ create_seq }}';
+                        v_sql   VARCHAR2(1000) := '{{ create_sequence }}';
                         
                       BEGIN
                         SELECT COUNT(*)
                         INTO   t_count
                         FROM   user_sequences
-                        WHERE  UPPER(sequence_name) = UPPER('{{ seq_name }}');
+                        WHERE  UPPER(sequence_name) = UPPER('{{ sequence_name }}');
                         
                         IF t_count = 0 THEN
                           EXECUTE IMMEDIATE v_sql;

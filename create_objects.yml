@@ -6,16 +6,18 @@
     dbhost:           cs-greybox-mvp-dbcs-1
     service_name:     pdb1.588919103.oraclecloud.internal
     table_name:       api_test_t
+    column_list:      >-
+                       seq_no      number
+                      ,insert_date date
+                      ,message     varchar2(1000)                      
     seq_name:         api_test_s
     create_table:     >-
-                      create table {{ api_test_t }} 
+                      create table {{ table_name }} 
                         (
-                         seq_no      number
-                        ,insert_date date
-                        ,message     varchar2(1000)
+                        {{ column_list }}
                         )
     create_seq:       >-
-                      create sequence {{ api_test_s }}
+                      create sequence {{ sequence_name }}
     
   tasks:
     - name: create table, if it doesn't exist
@@ -31,12 +33,12 @@
                         
                       BEGIN
                         SELECT COUNT(*)
-                          INTO t_count
-                          FROM user_tables
-                        WHERE table_name = '{{ table_name }}';
+                        INTO   t_count
+                        FROM   user_tables
+                        WHERE  table_name = '{{ table_name }}';
                         
                         IF t_count = 0 THEN
-                           EXECUTE IMMEDIATE v_sql;
+                          EXECUTE IMMEDIATE v_sql;
                         END IF;
                       END;
                       
@@ -53,11 +55,11 @@
                         
                       BEGIN
                         SELECT COUNT(*)
-                          INTO t_count
-                          FROM user_sequences
-                        WHERE sequence_name = '{{ sequence_name }}';
+                        INTO   t_count
+                        FROM   user_sequences
+                        WHERE  sequence_name = '{{ sequence_name }}';
                         
                         IF t_count = 0 THEN
-                           EXECUTE IMMEDIATE v_sql;
+                          EXECUTE IMMEDIATE v_sql;
                         END IF;
                       END;

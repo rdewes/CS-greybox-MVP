@@ -10,12 +10,12 @@
                       seq_no      number,
                       insert_date date,
                       message     varchar2(1000)                      
-    sequence_name:    api_test_s
     create_table:     >-
                       create table {{ table_name }} 
                         (
                         {{ tab_col_list }}
                         )
+    sequence_name:    api_test_s
     create_sequence:  >-
                       create sequence {{ sequence_name }}
     

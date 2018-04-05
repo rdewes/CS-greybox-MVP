@@ -1,80 +1,209 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://oc-130-162-65-221.compute.oraclecloud.com:8011/cs-greybox-mvp/launch
 
 # cs-greybox-mvp
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+API for managing lifecycle of databases on Exadata Cloud Service
 
-## Questions Collection [/questions]
+## Job Template Collection [/launch]
 
-### List All Questions [GET]
+### Get Information About a Job Template [GET]
 
 + Response 200 (application/json)
 
         [
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
+                "can_start_without_user_input": true,
+                "passwords_needed_to_start": [],
+                "ask_variables_on_launch": false,
+                "ask_tags_on_launch": false,
+                "ask_diff_mode_on_launch": false,
+                "ask_skip_tags_on_launch": false,
+                "ask_job_type_on_launch": false,
+                "ask_limit_on_launch": false,
+                "ask_verbosity_on_launch": false,
+                "ask_inventory_on_launch": false,
+                "ask_credential_on_launch": false,
+                "survey_enabled": false,
+                "variables_needed_to_start": [],
+                "credential_needed_to_start": false,
+                "inventory_needed_to_start": false,
+                "job_template_data": {
+                    "id": 15,
+                    "description": "",
+                    "name": "CS-greybox-MVP-AnsibleTower-jobtemplate-1 (Hello World)"
+                },
+                "defaults": {
+                    "extra_credentials": [],
+                    "credential": {
+                        "id": 1,
+                        "name": "Demo Credential"
+                    },
+                    "job_tags": "",
+                    "extra_vars": "",
+                    "verbosity": 0,
+                    "job_type": "run",
+                    "diff_mode": false,
+                    "skip_tags": "",
+                    "limit": "",
+                    "inventory": {
+                        "id": 1,
+                        "name": "Demo Inventory"
+                    },
+                    "vault_credential": {
+                        "id": null,
+                        "name": null
                     }
-                ]
+                }
             }
         ]
 
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+### Launch a Job Template [POST]
 
 + Request (application/json)
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+           
         }
 
 + Response 201 (application/json)
 
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
+        {
+            "ignored_fields": {},
+            "id": 719,
+            "type": "job",
+            "url": "/api/v2/jobs/719/",
+            "related": {
+                "created_by": "/api/v2/users/1/",
+                "modified_by": "/api/v2/users/1/",
+                "labels": "/api/v2/jobs/719/labels/",
+                "inventory": "/api/v2/inventories/1/",
+                "project": "/api/v2/projects/14/",
+                "credential": "/api/v2/credentials/1/",
+                "extra_credentials": "/api/v2/jobs/719/extra_credentials/",
+                "unified_job_template": "/api/v2/job_templates/15/",
+                "stdout": "/api/v2/jobs/719/stdout/",
+                "notifications": "/api/v2/jobs/719/notifications/",
+                "job_host_summaries": "/api/v2/jobs/719/job_host_summaries/",
+                "job_events": "/api/v2/jobs/719/job_events/",
+                "activity_stream": "/api/v2/jobs/719/activity_stream/",
+                "job_template": "/api/v2/job_templates/15/",
+                "cancel": "/api/v2/jobs/719/cancel/",
+                "relaunch": "/api/v2/jobs/719/relaunch/"
+            },
+            "summary_fields": {
+                "job_template": {
+                    "id": 15,
+                    "name": "CS-greybox-MVP-AnsibleTower-jobtemplate-1 (Hello World)",
+                    "description": ""
+                },
+                "inventory": {
+                    "id": 1,
+                    "name": "Demo Inventory",
+                    "description": "",
+                    "has_active_failures": false,
+                    "total_hosts": 1,
+                    "hosts_with_active_failures": 0,
+                    "total_groups": 0,
+                    "groups_with_active_failures": 0,
+                    "has_inventory_sources": false,
+                    "total_inventory_sources": 0,
+                    "inventory_sources_with_failures": 0,
+                    "organization_id": 1,
+                    "kind": ""
+                },
+                "credential": {
+                    "id": 1,
+                    "name": "Demo Credential",
+                    "description": "",
+                    "kind": "ssh",
+                    "cloud": false,
+                    "credential_type_id": 1
+                },
+                "unified_job_template": {
+                    "id": 15,
+                    "name": "CS-greybox-MVP-AnsibleTower-jobtemplate-1 (Hello World)",
+                    "description": "",
+                    "unified_job_type": "job"
+                },
+                "project": {
+                    "id": 14,
+                    "name": "CS-greybox-MVP-AnsibleTower-project-3 (GitHub, new Ansible-only repo)",
+                    "description": "",
+                    "status": "successful",
+                    "scm_type": "git"
+                },
+                "created_by": {
+                    "id": 1,
+                    "username": "admin",
+                    "first_name": "",
+                    "last_name": ""
+                },
+                "modified_by": {
+                    "id": 1,
+                    "username": "admin",
+                    "first_name": "",
+                    "last_name": ""
+                },
+                "user_capabilities": {
+                    "start": true,
+                    "delete": true
+                },
+                "labels": {
+                    "count": 0,
+                    "results": []
+                },
+                "extra_credentials": []
+            },
+            "created": "2018-04-04T09:26:05.560Z",
+            "modified": "2018-04-04T09:26:05.614Z",
+            "name": "CS-greybox-MVP-AnsibleTower-jobtemplate-1 (Hello World)",
+            "description": "",
+            "job_type": "run",
+            "inventory": 1,
+            "project": 14,
+            "playbook": "hello_world.yml",
+            "credential": 1,
+            "vault_credential": null,
+            "forks": 0,
+            "limit": "",
+            "verbosity": 0,
+            "extra_vars": "{}",
+            "job_tags": "",
+            "force_handlers": false,
+            "skip_tags": "",
+            "start_at_task": "",
+            "timeout": 0,
+            "use_fact_cache": false,
+            "unified_job_template": 15,
+            "launch_type": "manual",
+            "status": "pending",
+            "failed": false,
+            "started": null,
+            "finished": null,
+            "elapsed": 0,
+            "job_args": "",
+            "job_cwd": "",
+            "job_env": {},
+            "job_explanation": "",
+            "result_stdout": "Waiting for results...",
+            "execution_node": "",
+            "result_traceback": "",
+            "job_template": 15,
+            "passwords_needed_to_start": [],
+            "ask_diff_mode_on_launch": false,
+            "ask_variables_on_launch": false,
+            "ask_limit_on_launch": false,
+            "ask_tags_on_launch": false,
+            "ask_skip_tags_on_launch": false,
+            "ask_job_type_on_launch": false,
+            "ask_verbosity_on_launch": false,
+            "ask_inventory_on_launch": false,
+            "ask_credential_on_launch": false,
+            "allow_simultaneous": false,
+            "artifacts": {},
+            "scm_revision": "",
+            "instance_group": null,
+            "diff_mode": false,
+            "job": 719
+        }

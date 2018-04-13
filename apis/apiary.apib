@@ -8,7 +8,56 @@ API for managing lifecycle of databases on Exadata Cloud Service
 
 ## Manage PDB [/manage-pdb]
 
-### Launch the job for managing PDB  [L3.1,L3.3,L4.1,L4.2,L5.1,M1.1] [POST]
+### Get information about the job [GET]
+
++ Response 200 (application/json)
+
+        {
+            "can_start_without_user_input": false,
+            "passwords_needed_to_start": [],
+            "ask_variables_on_launch": true,
+            "ask_tags_on_launch": false,
+            "ask_diff_mode_on_launch": false,
+            "ask_skip_tags_on_launch": false,
+            "ask_job_type_on_launch": false,
+            "ask_limit_on_launch": false,
+            "ask_verbosity_on_launch": false,
+            "ask_inventory_on_launch": false,
+            "ask_credential_on_launch": false,
+            "survey_enabled": false,
+            "variables_needed_to_start": [],
+            "credential_needed_to_start": false,
+            "inventory_needed_to_start": false,
+            "job_template_data": {
+                "id": 25,
+                "description": "",
+                "name": "CS-greybox-MVP-AnsibleTower-jobtemplate--manage-pdb"
+            },
+            "defaults": {
+                "extra_credentials": [],
+                "credential": {
+                    "id": 5,
+                    "name": "CS-greybox-MVP-AnsibleTower-credential-sshkey-1"
+                },
+                "job_tags": "",
+                "extra_vars": "p_cdb_name: CSMVP1\np_host: cs-greybox-mvp-exa-scan\np_pdb_name: mypdb001\np_port: 1521\np_service: CSMVP1.em3.oraclecloud.com\np_state: open\np_sysdba_pw: 'super45CS#'\np_sysdba_un: sys\np_tablespaces:\n  - name: userdata01\n    size: 10m\n  - name: userdata02\n    size: 20m",
+                "verbosity": 0,
+                "job_type": "run",
+                "diff_mode": false,
+                "skip_tags": "",
+                "limit": "",
+                "inventory": {
+                    "id": 3,
+                    "name": "CS-greybox-MVP-AnsibleTower-Inventory-2 (localhost only)"
+                },
+                "vault_credential": {
+                    "id": null,
+                    "name": null
+                }
+            }
+        }
+
+### Launch the job  [L3.1,L3.3,L4.1,L4.2,L5.1,M1.1] [POST]
 
 + Request Create large bronze PDB L3.1 (application/json)
 
@@ -195,10 +244,16 @@ API for managing lifecycle of databases on Exadata Cloud Service
             "job": 1006
         }
         
-        
-## Enable Database Archive [/enable-database-archive]
+## Enable in-database archiving [/enable-database-archive]
 
-### Launch the job for enabling in-database archiving [L7.1] [POST]
+### Get information about the job [GET]
+
++ Response 200 (application/json)
+
+        {
+        }
+
+### Launch the job [L7.1] [POST]
 
 + Request (application/json)
 
@@ -210,9 +265,16 @@ API for managing lifecycle of databases on Exadata Cloud Service
             {
             }
             
-## Kill a Session [/kill-database-session]
+## Kill a session [/kill-database-session]
 
-### Launch the job for killing a database session [M1.2] [POST]
+### Get information about the job [GET]
+
++ Response 200 (application/json)
+
+        {
+        }
+
+### Launch the job [M1.2] [POST]
 
 + Request (application/json)
 
@@ -226,7 +288,7 @@ API for managing lifecycle of databases on Exadata Cloud Service
         
 ## Jobs [/jobs/{id}]
 
-### Get runtime information about a job [GET]
+### Get runtime information about a launched job [GET]
 
 + Parameters
 
@@ -607,7 +669,7 @@ API for managing lifecycle of databases on Exadata Cloud Service
 
 + Parameters
 
-    + instance: CS-greybox-MVP-exadata-1 (string) - Database instance name.
+    + instance: `CS-greybox-MVP-exadata-1` (string) - Database instance name.
     
 + Request Recover to yesterday's backup Q3.1 (application/json)
 
@@ -637,7 +699,7 @@ API for managing lifecycle of databases on Exadata Cloud Service
 
 + Parameters
 
-    + instance: CS-greybox-MVP-exadata-1 (string) - Database instance name.
+    + instance: `CS-greybox-MVP-exadata-1` (string) - Database instance name.
 
 + Response 200 (application/json)
 
@@ -649,7 +711,7 @@ API for managing lifecycle of databases on Exadata Cloud Service
 
 + Parameters
 
-    + instance: CS-greybox-MVP-exadata-1 (string) - Database instance name.
+    + instance: `CS-greybox-MVP-exadata-1` (string) - Database instance name.
 
 + Response 200 (application/json)
 

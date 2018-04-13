@@ -262,8 +262,8 @@ API for managing lifecycle of databases on Exadata Cloud Service
         
 + Response 201 (application/json)
 
-            {
-            }
+        {
+        }
             
 ## Kill a session [/kill-database-session]
 
@@ -283,8 +283,8 @@ API for managing lifecycle of databases on Exadata Cloud Service
         
 + Response 201 (application/json)
 
-            {
-            }
+        {
+        }
         
 ## Jobs [/jobs/{id}]
 
@@ -582,7 +582,7 @@ API for managing lifecycle of databases on Exadata Cloud Service
                 ]
             }
 
-## Retrieve details of a database [I4.2] [GET /database-services/{instance}]
+### Retrieve details of a database [I4.2] [GET /database-services/{instance}]
 
 + Parameters
 
@@ -665,49 +665,34 @@ API for managing lifecycle of databases on Exadata Cloud Service
                 "jaas_instances_using_service": ""
             }
           
-## Start a recovery operation [Q3.1,Q3.2] [POST /database-services/{instance}/backups/recovery]
+### Start a recovery operation [Q3.1,Q3.2] [POST /database-services/{instance}/backups/recovery]
 
 + Parameters
 
-    + instance: `CS-greybox-MVP-exadata-1` (string) - Database instance name.
+    + instance: `CS-greybox-MVP-exadata-1` (string) - Database instance name
     
 + Request Recover to yesterday's backup Q3.1 (application/json)
 
         {
-            
         }
 
 + Response 200 (application/json)
 
-            {
-            
-            }
+        {
+        }
 
 + Request Recover to most-recent backup Q3.2 (application/json)
 
         {
-            
         }
 
 + Response 200 (application/json)
 
-            {
-            
-            }            
+        {
+        }      
 
-## View all backup operations [GET /database-services/{instance}/backups]
 
-+ Parameters
-
-    + instance: `CS-greybox-MVP-exadata-1` (string) - Database instance name.
-
-+ Response 200 (application/json)
-
-            {
-                "backupList": []
-            }
-            
-## View all recovery operations [GET /database-services/{instance}/backups/recovery/history]
+### View all backup operations [GET /database-services/{instance}/backups]
 
 + Parameters
 
@@ -715,6 +700,18 @@ API for managing lifecycle of databases on Exadata Cloud Service
 
 + Response 200 (application/json)
 
-            {
-                "recoveryList": []
-            }
+        {
+            "backupList": []
+        }
+            
+### View all recovery operations [GET /database-services/{instance}/backups/recovery/history]
+
++ Parameters
+
+    + instance: `CS-greybox-MVP-exadata-1` (string) - Database instance name.
+
++ Response 200 (application/json)
+
+        {
+            "recoveryList": []
+        }

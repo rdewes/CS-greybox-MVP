@@ -1,105 +1,92 @@
 FORMAT: 1A
-HOST: http://oc-130-162-65-221.compute.oraclecloud.com:8011/cs-greybox-mvp/launch
+HOST: http://oc-130-162-65-221.compute.oraclecloud.com:8011/cs-greybox-mvp
 
 # cs-greybox-mvp
 
 API for managing lifecycle of databases on Exadata Cloud Service
 
-## Job Template [/launch]
 
-### Get Information About a Job Template [GET]
+## Manage PDB [/manage-pdb]
 
-+ Response 200 (application/json)
+### Launch the job for managing PDB  [L3.1,L3.3,L4.1,L4.2,L5.1,M1.1] [POST]
 
-        [
-            {
-                "can_start_without_user_input": true,
-                "passwords_needed_to_start": [],
-                "ask_variables_on_launch": false,
-                "ask_tags_on_launch": false,
-                "ask_diff_mode_on_launch": false,
-                "ask_skip_tags_on_launch": false,
-                "ask_job_type_on_launch": false,
-                "ask_limit_on_launch": false,
-                "ask_verbosity_on_launch": false,
-                "ask_inventory_on_launch": false,
-                "ask_credential_on_launch": false,
-                "survey_enabled": false,
-                "variables_needed_to_start": [],
-                "credential_needed_to_start": false,
-                "inventory_needed_to_start": false,
-                "job_template_data": {
-                    "id": 15,
-                    "description": "",
-                    "name": "CS-greybox-MVP-AnsibleTower-jobtemplate-1 (Hello World)"
-                },
-                "defaults": {
-                    "extra_credentials": [],
-                    "credential": {
-                        "id": 1,
-                        "name": "Demo Credential"
-                    },
-                    "job_tags": "",
-                    "extra_vars": "",
-                    "verbosity": 0,
-                    "job_type": "run",
-                    "diff_mode": false,
-                    "skip_tags": "",
-                    "limit": "",
-                    "inventory": {
-                        "id": 1,
-                        "name": "Demo Inventory"
-                    },
-                    "vault_credential": {
-                        "id": null,
-                        "name": null
-                    }
-                }
-            }
-        ]
-
-### Launch a Job [POST]
-
-+ Request (application/json)
++ Request Create large bronze PDB L3.1 (application/json)
 
         {
-           
+            "extra_vars":{"p_state":"present"}
         }
+        
++ Request Create small bronze PDB L3.3 (application/json)
+
+        {
+            "extra_vars":{"p_state":"present"}
+        }
+        
++ Request Destroy large bronze PDB L4.1 (application/json)
+
+        {
+            "extra_vars":{"p_state":"absent"}
+        }
+      
++ Request Destroy small bronze PDB L4.2 (application/json)
+
+        {
+            "extra_vars":{"p_state":"absent"}
+        }  
+        
++ Request Clone small bronze PDB L5.1 (application/json)
+
+        {
+            "extra_vars":{"p_state":"clone"}
+        }
+
++ Request Start database service M1.1 (application/json)
+
+        {
+            "extra_vars":{"p_state":"open"}
+        }
+        
++ Request Stop database service M1.1 (application/json)
+
+        {
+            "extra_vars":{"p_state":"close"}
+        }
+
 
 + Response 201 (application/json)
 
         {
             "ignored_fields": {},
-            "id": 719,
+            "id": 1006,
             "type": "job",
-            "url": "/api/v2/jobs/719/",
+            "url": "/api/v2/jobs/1006/",
             "related": {
                 "created_by": "/api/v2/users/1/",
                 "modified_by": "/api/v2/users/1/",
-                "labels": "/api/v2/jobs/719/labels/",
-                "inventory": "/api/v2/inventories/1/",
+                "labels": "/api/v2/jobs/1006/labels/",
+                "inventory": "/api/v2/inventories/3/",
                 "project": "/api/v2/projects/14/",
-                "credential": "/api/v2/credentials/1/",
-                "extra_credentials": "/api/v2/jobs/719/extra_credentials/",
-                "unified_job_template": "/api/v2/job_templates/15/",
-                "stdout": "/api/v2/jobs/719/stdout/",
-                "notifications": "/api/v2/jobs/719/notifications/",
-                "job_host_summaries": "/api/v2/jobs/719/job_host_summaries/",
-                "job_events": "/api/v2/jobs/719/job_events/",
-                "activity_stream": "/api/v2/jobs/719/activity_stream/",
-                "job_template": "/api/v2/job_templates/15/",
-                "cancel": "/api/v2/jobs/719/cancel/",
-                "relaunch": "/api/v2/jobs/719/relaunch/"
+                "credential": "/api/v2/credentials/5/",
+                "extra_credentials": "/api/v2/jobs/1006/extra_credentials/",
+                "unified_job_template": "/api/v2/job_templates/25/",
+                "stdout": "/api/v2/jobs/1006/stdout/",
+                "notifications": "/api/v2/jobs/1006/notifications/",
+                "job_host_summaries": "/api/v2/jobs/1006/job_host_summaries/",
+                "job_events": "/api/v2/jobs/1006/job_events/",
+                "activity_stream": "/api/v2/jobs/1006/activity_stream/",
+                "job_template": "/api/v2/job_templates/25/",
+                "cancel": "/api/v2/jobs/1006/cancel/",
+                "relaunch": "/api/v2/jobs/1006/relaunch/"
             },
             "summary_fields": {
                 "job_template": {
-                    "id": 15,
-                    "name": "CS-greybox-MVP-AnsibleTower-jobtemplate-1 (Hello World)",
+                    "id": 25,
+                    "name": "CS-greybox-MVP-AnsibleTower-jobtemplate--manage-pdb",
                     "description": ""
                 },
                 "inventory": {
-                    "id": 1,
-                    "name": "Demo Inventory",
+                    "id": 3,
+                    "name": "CS-greybox-MVP-AnsibleTower-Inventory-2 (localhost only)",
                     "description": "",
                     "has_active_failures": false,
                     "total_hosts": 1,
@@ -113,16 +100,16 @@ API for managing lifecycle of databases on Exadata Cloud Service
                     "kind": ""
                 },
                 "credential": {
-                    "id": 1,
-                    "name": "Demo Credential",
+                    "id": 5,
+                    "name": "CS-greybox-MVP-AnsibleTower-credential-sshkey-1",
                     "description": "",
                     "kind": "ssh",
                     "cloud": false,
                     "credential_type_id": 1
                 },
                 "unified_job_template": {
-                    "id": 15,
-                    "name": "CS-greybox-MVP-AnsibleTower-jobtemplate-1 (Hello World)",
+                    "id": 25,
+                    "name": "CS-greybox-MVP-AnsibleTower-jobtemplate--manage-pdb",
                     "description": "",
                     "unified_job_type": "job"
                 },
@@ -155,27 +142,27 @@ API for managing lifecycle of databases on Exadata Cloud Service
                 },
                 "extra_credentials": []
             },
-            "created": "2018-04-04T09:26:05.560Z",
-            "modified": "2018-04-04T09:26:05.614Z",
-            "name": "CS-greybox-MVP-AnsibleTower-jobtemplate-1 (Hello World)",
+            "created": "2018-04-13T09:51:16.829Z",
+            "modified": "2018-04-13T09:51:16.882Z",
+            "name": "CS-greybox-MVP-AnsibleTower-jobtemplate--manage-pdb",
             "description": "",
             "job_type": "run",
-            "inventory": 1,
+            "inventory": 3,
             "project": 14,
-            "playbook": "hello_world.yml",
-            "credential": 1,
+            "playbook": "CS-greybox-MVP--manage-pdb.yml",
+            "credential": 5,
             "vault_credential": null,
             "forks": 0,
             "limit": "",
             "verbosity": 0,
-            "extra_vars": "{}",
+            "extra_vars": "{\"p_host\": \"cs-greybox-mvp-exa-scan\", \"p_sysdba_pw\": \"super45CS#\", \"p_service\": \"CSMVP1.em3.oraclecloud.com\", \"p_state\": \"open\", \"p_pdb_name\": \"mypdb001\", \"p_cdb_name\": \"CSMVP1\", \"p_sysdba_un\": \"sys\", \"p_port\": 1521, \"p_tablespaces\": [{\"name\": \"userdata01\", \"size\": \"10m\"}, {\"name\": \"userdata02\", \"size\": \"20m\"}]}",
             "job_tags": "",
             "force_handlers": false,
             "skip_tags": "",
             "start_at_task": "",
             "timeout": 0,
-            "use_fact_cache": false,
-            "unified_job_template": 15,
+            "use_fact_cache": true,
+            "unified_job_template": 25,
             "launch_type": "manual",
             "status": "pending",
             "failed": false,
@@ -189,10 +176,10 @@ API for managing lifecycle of databases on Exadata Cloud Service
             "result_stdout": "Waiting for results...",
             "execution_node": "",
             "result_traceback": "",
-            "job_template": 15,
+            "job_template": 25,
             "passwords_needed_to_start": [],
             "ask_diff_mode_on_launch": false,
-            "ask_variables_on_launch": false,
+            "ask_variables_on_launch": true,
             "ask_limit_on_launch": false,
             "ask_tags_on_launch": false,
             "ask_skip_tags_on_launch": false,
@@ -205,198 +192,467 @@ API for managing lifecycle of databases on Exadata Cloud Service
             "scm_revision": "",
             "instance_group": null,
             "diff_mode": false,
-            "job": 719
+            "job": 1006
         }
         
         
-## Job [/jobs/{id}]
+## Enable Database Archive [/enable-database-archive]
 
-### Get Runtime Information About a Job [GET]
+### Launch the job for enabling in-database archiving [L7.1] [POST]
+
++ Request (application/json)
+
+        {
+        }
+        
++ Response 201 (application/json)
+
+            {
+            }
+            
+## Kill a Session [/kill-database-session]
+
+### Launch the job for killing a database session [M1.2] [POST]
+
++ Request (application/json)
+
+        {
+        }
+        
++ Response 201 (application/json)
+
+            {
+            }
+        
+## Jobs [/jobs/{id}]
+
+### Get runtime information about a job [GET]
+
++ Parameters
+
+    + id: 1006 (string) - Job ID.
 
 + Response 200 (application/json)
 
             {
-            "id": 725,
-            "type": "job",
-            "url": "/api/v2/jobs/725/",
-            "related": {
-                "created_by": "/api/v2/users/1/",
-                "labels": "/api/v2/jobs/725/labels/",
-                "inventory": "/api/v2/inventories/1/",
-                "project": "/api/v2/projects/14/",
-                "credential": "/api/v2/credentials/1/",
-                "extra_credentials": "/api/v2/jobs/725/extra_credentials/",
-                "unified_job_template": "/api/v2/job_templates/15/",
-                "stdout": "/api/v2/jobs/725/stdout/",
-                "notifications": "/api/v2/jobs/725/notifications/",
-                "job_host_summaries": "/api/v2/jobs/725/job_host_summaries/",
-                "job_events": "/api/v2/jobs/725/job_events/",
-                "activity_stream": "/api/v2/jobs/725/activity_stream/",
-                "job_template": "/api/v2/job_templates/15/",
-                "cancel": "/api/v2/jobs/725/cancel/",
-                "project_update": "/api/v2/project_updates/727/",
-                "relaunch": "/api/v2/jobs/725/relaunch/"
-            },
-            "summary_fields": {
-                "instance_group": {
-                    "id": 1,
-                    "name": "tower"
+                "id": 1006,
+                "type": "job",
+                "url": "/api/v2/jobs/1006/",
+                "related": {
+                    "created_by": "/api/v2/users/1/",
+                    "labels": "/api/v2/jobs/1006/labels/",
+                    "inventory": "/api/v2/inventories/3/",
+                    "project": "/api/v2/projects/14/",
+                    "credential": "/api/v2/credentials/5/",
+                    "extra_credentials": "/api/v2/jobs/1006/extra_credentials/",
+                    "unified_job_template": "/api/v2/job_templates/25/",
+                    "stdout": "/api/v2/jobs/1006/stdout/",
+                    "notifications": "/api/v2/jobs/1006/notifications/",
+                    "job_host_summaries": "/api/v2/jobs/1006/job_host_summaries/",
+                    "job_events": "/api/v2/jobs/1006/job_events/",
+                    "activity_stream": "/api/v2/jobs/1006/activity_stream/",
+                    "job_template": "/api/v2/job_templates/25/",
+                    "cancel": "/api/v2/jobs/1006/cancel/",
+                    "project_update": "/api/v2/project_updates/1008/",
+                    "relaunch": "/api/v2/jobs/1006/relaunch/"
                 },
-                "job_template": {
-                    "id": 15,
-                    "name": "CS-greybox-MVP-AnsibleTower-jobtemplate-1 (Hello World)",
-                    "description": ""
+                "summary_fields": {
+                    "instance_group": {
+                        "id": 1,
+                        "name": "tower"
+                    },
+                    "job_template": {
+                        "id": 25,
+                        "name": "CS-greybox-MVP-AnsibleTower-jobtemplate--manage-pdb",
+                        "description": ""
+                    },
+                    "inventory": {
+                        "id": 3,
+                        "name": "CS-greybox-MVP-AnsibleTower-Inventory-2 (localhost only)",
+                        "description": "",
+                        "has_active_failures": false,
+                        "total_hosts": 1,
+                        "hosts_with_active_failures": 0,
+                        "total_groups": 0,
+                        "groups_with_active_failures": 0,
+                        "has_inventory_sources": false,
+                        "total_inventory_sources": 0,
+                        "inventory_sources_with_failures": 0,
+                        "organization_id": 1,
+                        "kind": ""
+                    },
+                    "credential": {
+                        "id": 5,
+                        "name": "CS-greybox-MVP-AnsibleTower-credential-sshkey-1",
+                        "description": "",
+                        "kind": "ssh",
+                        "cloud": false,
+                        "credential_type_id": 1
+                    },
+                    "project_update": {
+                        "id": 1008,
+                        "name": "CS-greybox-MVP-AnsibleTower-project-3 (GitHub, new Ansible-only repo)",
+                        "description": "",
+                        "status": "successful",
+                        "failed": false
+                    },
+                    "unified_job_template": {
+                        "id": 25,
+                        "name": "CS-greybox-MVP-AnsibleTower-jobtemplate--manage-pdb",
+                        "description": "",
+                        "unified_job_type": "job"
+                    },
+                    "project": {
+                        "id": 14,
+                        "name": "CS-greybox-MVP-AnsibleTower-project-3 (GitHub, new Ansible-only repo)",
+                        "description": "",
+                        "status": "successful",
+                        "scm_type": "git"
+                    },
+                    "created_by": {
+                        "id": 1,
+                        "username": "admin",
+                        "first_name": "",
+                        "last_name": ""
+                    },
+                    "user_capabilities": {
+                        "start": true,
+                        "delete": true
+                    },
+                    "labels": {
+                        "count": 0,
+                        "results": []
+                    },
+                    "extra_credentials": []
                 },
-                "inventory": {
-                    "id": 1,
-                    "name": "Demo Inventory",
-                    "description": "",
-                    "has_active_failures": false,
-                    "total_hosts": 1,
-                    "hosts_with_active_failures": 0,
-                    "total_groups": 0,
-                    "groups_with_active_failures": 0,
-                    "has_inventory_sources": false,
-                    "total_inventory_sources": 0,
-                    "inventory_sources_with_failures": 0,
-                    "organization_id": 1,
-                    "kind": ""
+                "created": "2018-04-13T09:51:16.829Z",
+                "modified": "2018-04-13T09:51:23.475Z",
+                "name": "CS-greybox-MVP-AnsibleTower-jobtemplate--manage-pdb",
+                "description": "",
+                "job_type": "run",
+                "inventory": 3,
+                "project": 14,
+                "playbook": "CS-greybox-MVP--manage-pdb.yml",
+                "credential": 5,
+                "vault_credential": null,
+                "forks": 0,
+                "limit": "",
+                "verbosity": 0,
+                "extra_vars": "{\"p_host\": \"cs-greybox-mvp-exa-scan\", \"p_sysdba_pw\": \"super45CS#\", \"p_service\": \"CSMVP1.em3.oraclecloud.com\", \"p_state\": \"open\", \"p_pdb_name\": \"mypdb001\", \"p_cdb_name\": \"CSMVP1\", \"p_sysdba_un\": \"sys\", \"p_port\": 1521, \"p_tablespaces\": [{\"name\": \"userdata01\", \"size\": \"10m\"}, {\"name\": \"userdata02\", \"size\": \"20m\"}]}",
+                "job_tags": "",
+                "force_handlers": false,
+                "skip_tags": "",
+                "start_at_task": "",
+                "timeout": 0,
+                "use_fact_cache": true,
+                "unified_job_template": 25,
+                "launch_type": "manual",
+                "status": "successful",
+                "failed": false,
+                "started": "2018-04-13T09:51:23.540814Z",
+                "finished": "2018-04-13T09:51:39.975579Z",
+                "elapsed": 16.435,
+                "job_args": "[\"ssh-agent\", \"-a\", \"/tmp/awx_1006_bymH88/ssh_auth.sock\", \"sh\", \"-c\", \"ssh-add /tmp/awx_1006_bymH88/credential_5 && rm -f /tmp/awx_1006_bymH88/credential_5 && bwrap --unshare-pid --dev-bind / / --bind /tmp/awx_proot_IHvgNH/tmpOok083 /etc/tower --bind /tmp/awx_proot_IHvgNH/tmpe5WXZP /tmp --bind /tmp/awx_proot_IHvgNH/tmpOKEMJS /var/lib/awx --bind /tmp/awx_proot_IHvgNH/tmpfi6HBt /var/lib/awx/job_status --bind /tmp/awx_proot_IHvgNH/tmpx4VUqe /var/lib/awx/projects --bind /tmp/awx_proot_IHvgNH/tmp8vLVAS /var/log --ro-bind /var/lib/awx/venv/ansible /var/lib/awx/venv/ansible --ro-bind /var/lib/awx/venv/awx /var/lib/awx/venv/awx --bind /tmp/awx_1006_bymH88 /tmp/awx_1006_bymH88 --bind /var/lib/awx/projects/_14__cs_greybox_mvp_ansibletower_project_3_github_new_ansible_only_repo /var/lib/awx/projects/_14__cs_greybox_mvp_ansibletower_project_3_github_new_ansible_only_repo --chdir /var/lib/awx/projects/_14__cs_greybox_mvp_ansibletower_project_3_github_new_ansible_only_repo ansible-playbook -i /tmp/awx_1006_bymH88/tmpFB7uvB.awxrest.py -u opc --become -e '{\\\"awx_job_template_name\\\": \\\"CS-greybox-MVP-AnsibleTower-jobtemplate--manage-pdb\\\", \\\"tower_job_template_name\\\": \\\"CS-greybox-MVP-AnsibleTower-jobtemplate--manage-pdb\\\", \\\"p_sysdba_pw\\\": \\\"super45CS#\\\", \\\"p_host\\\": \\\"cs-greybox-mvp-exa-scan\\\", \\\"p_service\\\": \\\"CSMVP1.em3.oraclecloud.com\\\", \\\"awx_user_name\\\": \\\"admin\\\", \\\"tower_job_launch_type\\\": \\\"manual\\\", \\\"awx_job_template_id\\\": 25, \\\"p_cdb_name\\\": \\\"CSMVP1\\\", \\\"awx_job_id\\\": 1006, \\\"awx_user_id\\\": 1, \\\"p_tablespaces\\\": [{\\\"name\\\": \\\"userdata01\\\", \\\"size\\\": \\\"10m\\\"}, {\\\"name\\\": \\\"userdata02\\\", \\\"size\\\": \\\"20m\\\"}], \\\"awx_project_revision\\\": \\\"3f78a127a37133501e0ebbeedc30c3e31de20a61\\\", \\\"tower_user_id\\\": 1, \\\"tower_project_revision\\\": \\\"3f78a127a37133501e0ebbeedc30c3e31de20a61\\\", \\\"tower_user_name\\\": \\\"admin\\\", \\\"p_pdb_name\\\": \\\"mypdb001\\\", \\\"tower_job_template_id\\\": 25, \\\"tower_job_id\\\": 1006, \\\"awx_job_launch_type\\\": \\\"manual\\\", \\\"p_port\\\": 1521, \\\"p_state\\\": \\\"open\\\", \\\"p_sysdba_un\\\": \\\"sys\\\"}' CS-greybox-MVP--manage-pdb.yml\"]",
+                "job_cwd": "/var/lib/awx/projects/_14__cs_greybox_mvp_ansibletower_project_3_github_new_ansible_only_repo",
+                "job_env": {
+                    "ANSIBLE_RETRY_FILES_ENABLED": "False",
+                    "DJANGO_LIVE_TEST_SERVER_ADDRESS": "localhost:9013-9199",
+                    "PROJECT_REVISION": "3f78a127a37133501e0ebbeedc30c3e31de20a61",
+                    "_MP_FORK_LOGFILE_": "",
+                    "CELERY_LOG_REDIRECT": "1",
+                    "USER": "awx",
+                    "HOME": "/var/lib/awx",
+                    "PATH": "/var/lib/awx/venv/ansible/bin:/var/lib/awx/venv/awx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin",
+                    "PS1": "(awx)",
+                    "ANSIBLE_CALLBACK_PLUGINS": "/var/lib/awx/venv/awx/lib/python2.7/site-packages/awx/plugins/callback",
+                    "LANG": "en_US.UTF-8",
+                    "VIRTUAL_ENV": "/var/lib/awx/venv/ansible",
+                    "REST_API_TOKEN": "**********",
+                    "ANSIBLE_PARAMIKO_RECORD_HOST_KEYS": "False",
+                    "_MP_FORK_LOGFORMAT_": "[%(asctime)s: %(levelname)s/%(processName)s] %(message)s",
+                    "SHLVL": "0",
+                    "MAX_EVENT_RES": "700000",
+                    "SUPERVISOR_ENABLED": "1",
+                    "CELERY_LOG_FILE": "",
+                    "DJANGO_PROJECT_DIR": "/var/lib/awx/venv/awx/lib/python2.7/site-packages",
+                    "CACHE": "localhost:11211",
+                    "ANSIBLE_HOST_KEY_CHECKING": "False",
+                    "AWX_PRIVATE_DATA_DIR": "/tmp/awx_1006_bymH88",
+                    "JOB_ID": "1006",
+                    "ANSIBLE_STDOUT_CALLBACK": "awx_display",
+                    "PYTHONPATH": "/var/lib/awx/venv/ansible/lib/python2.7/site-packages:",
+                    "SUPERVISOR_PROCESS_NAME": "awx-celeryd",
+                    "SUPERVISOR_SERVER_URL": "unix:///var/run/supervisor/supervisor.sock",
+                    "ANSIBLE_CACHE_PLUGIN_CONNECTION": "/tmp/awx_1006_bymH88/facts",
+                    "INVENTORY_HOSTVARS": "True",
+                    "ANSIBLE_FORCE_COLOR": "True",
+                    "REST_API_URL": "http://127.0.0.1:80",
+                    "CELERY_LOG_REDIRECT_LEVEL": "WARNING",
+                    "ANSIBLE_LIBRARY": "/var/lib/awx/venv/awx/lib/python2.7/site-packages/awx/plugins/library",
+                    "CELERY_LOADER": "djcelery.loaders.DjangoLoader",
+                    "CELERY_LOG_LEVEL": "10",
+                    "ANSIBLE_CACHE_PLUGIN": "jsonfile",
+                    "INVENTORY_ID": "3",
+                    "ANSIBLE_SSH_CONTROL_PATH": "/tmp/awx_1006_bymH88/cp/%%h%%p%%r",
+                    "PWD": "/var/lib/awx",
+                    "_MP_FORK_LOGLEVEL_": "10",
+                    "DJANGO_SETTINGS_MODULE": "awx.settings.production",
+                    "ANSIBLE_VENV_PATH": "/var/lib/awx/venv/ansible",
+                    "PROOT_TMP_DIR": "/tmp",
+                    "SUPERVISOR_GROUP_NAME": "tower-processes"
                 },
-                "credential": {
-                    "id": 1,
-                    "name": "Demo Credential",
-                    "description": "",
-                    "kind": "ssh",
-                    "cloud": false,
-                    "credential_type_id": 1
+                "job_explanation": "",
+                "result_stdout": "Identity added: /tmp/awx_1006_bymH88/credential_5 (/tmp/awx_1006_bymH88/credential_5)\r\n [WARNING]: Found variable using reserved name: port\r\n\r\n\r\nPLAY [manage a PDB] ************************************************************\r\n\r\nTASK [Gathering Facts] *********************************************************\r\nok: [localhost]\r\n\r\nTASK [put the pdb into the required state] *************************************\r\nok: [localhost]\r\n\r\nTASK [show output from pdb state-management task] ******************************\r\nok: [localhost] => {\r\n    \"p_pdb_out.msg\": \"Pluggable database mypdb001 already in the intended state\"\r\n}\r\n\r\nTASK [retrieve service name so we can connect to the new pdb] ******************\r\nskipping: [localhost]\r\n\r\nTASK [create tablespaces in new pdb, via the new service name] *****************\r\nskipping: [localhost]\r\n\r\nTASK [show output from tablespace creation] ************************************\r\nskipping: [localhost]\r\n\r\nPLAY RECAP *********************************************************************\r\nlocalhost                  : ok=3    changed=0    unreachable=0    failed=0   \r\n\r\n",
+                "execution_node": "localhost",
+                "result_traceback": "",
+                "job_template": 25,
+                "passwords_needed_to_start": [],
+                "ask_diff_mode_on_launch": false,
+                "ask_variables_on_launch": true,
+                "ask_limit_on_launch": false,
+                "ask_tags_on_launch": false,
+                "ask_skip_tags_on_launch": false,
+                "ask_job_type_on_launch": false,
+                "ask_verbosity_on_launch": false,
+                "ask_inventory_on_launch": false,
+                "ask_credential_on_launch": false,
+                "allow_simultaneous": false,
+                "artifacts": {},
+                "scm_revision": "3f78a127a37133501e0ebbeedc30c3e31de20a61",
+                "instance_group": 1,
+                "diff_mode": false
+            }
+            
+
+
+## Database Services [/database-services]
+
+### List all databases in domain [M5.1] [GET]
+
++ Response 200 (application/json)
+
+            {
+                "uri": "https://dbcs.emea.oraclecloud.com:443/paas/service/dbcs/api/v1.1/instances/oscemea005",
+                "service_type": "dbaas",
+                "implementation_version": "1.0",
+                "services": [
+                    {
+                        "service_name": "CS-greybox-MVP-exadata-2",
+                        "service_uuid": "1A6953DE6DF14D6AAFC2EC7892FCA55A",
+                        "version": "12.2.0.1",
+                        "status": "Running",
+                        "description": "CS-greybox-MVP-exadata-2",
+                        "identity_domain": "oscemea005",
+                        "creation_time": "2018-04-10T09:52:50.898+0000",
+                        "last_modified_time": "2018-04-10T10:27:44.416+0000",
+                        "created_by": "richard.dewes@oracle.com",
+                        "sm_plugin_version": "18.1.6-551",
+                        "is_managed": false,
+                        "tags": "{\"items\":[],\"totalResults\":0,\"hasMore\":false}",
+                        "tools_version": "18.1.6-551",
+                        "backup_supported_version": "16.1.5",
+                        "service_uri": "https://dbcs.emea.oraclecloud.com:443/paas/service/dbcs/api/v1.1/instances/oscemea005/CS-greybox-MVP-exadata-2"
+                    },
+                    {
+                        "service_name": "CS-greybox-MVP-exadata-1",
+                        "service_uuid": "9090140103BE4FF0B724808766C862D1",
+                        "version": "12.2.0.1",
+                        "status": "Running",
+                        "description": "CS-greybox-MVP-exadata-1",
+                        "identity_domain": "oscemea005",
+                        "creation_time": "2018-04-10T08:37:36.144+0000",
+                        "last_modified_time": "2018-04-10T09:12:15.598+0000",
+                        "created_by": "richard.dewes@oracle.com",
+                        "sm_plugin_version": "18.1.6-551",
+                        "is_managed": false,
+                        "tags": "{\"items\":[],\"totalResults\":0,\"hasMore\":false}",
+                        "tools_version": "18.1.6-551",
+                        "backup_supported_version": "16.1.5",
+                        "service_uri": "https://dbcs.emea.oraclecloud.com:443/paas/service/dbcs/api/v1.1/instances/oscemea005/CS-greybox-MVP-exadata-1"
+                    },
+                    {
+                        "service_name": "CSDB",
+                        "service_uuid": "B638642791D8447AB8C541FBB85C0AB4",
+                        "version": "12.2.0.1",
+                        "status": "Running",
+                        "description": "Database for Peter Brink",
+                        "identity_domain": "oscemea005",
+                        "creation_time": "2018-04-12T11:14:39.436+0000",
+                        "last_modified_time": "2018-04-12T13:37:40.787+0000",
+                        "created_by": "john.nangle@oracle.com",
+                        "sm_plugin_version": "18.1.6-551",
+                        "is_managed": false,
+                        "tags": "{\"items\":[],\"totalResults\":0,\"hasMore\":false}",
+                        "tools_version": "18.1.6-551",
+                        "service_uri": "https://dbcs.emea.oraclecloud.com:443/paas/service/dbcs/api/v1.1/instances/oscemea005/CSDB"
+                    }
+                ],
+                "subscriptions": [
+                    {
+                        "subscriptionId": "6560C654236880ADE050C10A17141742",
+                        "name": "osc150839exa01",
+                        "isTrial": "false",
+                        "exadata_system_name": "osc150839ex",
+                        "size": "QUARTER",
+                        "managed_system": false,
+                        "hostClusters": [
+                            {
+                                "clusterName": "exacs-005",
+                                "hostNames": [
+                                    "slcldv0305m.em3.oraclecloud.com",
+                                    "slcldv0306m.em3.oraclecloud.com"
+                                ],
+                                "total_storage": 42,
+                                "total_memory": 480,
+                                "total_cpu": 16,
+                                "total_num_ip_reservations": 2,
+                                "exadata_backup_to_disk": "false",
+                                "starter_db_created": "true",
+                                "snapClone_enabled": "false",
+                                "zdlra_enabled": "false"
+                            }
+                        ],
+                        "datacenterId": "EM002",
+                        "datacenterName": "EMEA Commercial 2",
+                        "regionId": "UK001",
+                        "regionName": "EMEA"
+                    }
+                ]
+            }
+
+## Retrieve details of a database [I4.2] [GET /database-services/{instance}]
+
++ Parameters
+
+    + instance: CS-greybox-MVP-exadata-1 (string) - Database instance name.
+
++ Response 200 (application/json)
+
+            {
+                "service_name": "CS-greybox-MVP-exadata-1",
+                "service_uuid": "9090140103BE4FF0B724808766C862D1",
+                "version": "12.2.0.1",
+                "status": "Running",
+                "description": "CS-greybox-MVP-exadata-1",
+                "identity_domain": "oscemea005",
+                "creation_time": "2018-04-10T08:37:36.144+0000",
+                "last_modified_time": "2018-04-10T09:12:15.598+0000",
+                "created_by": "richard.dewes@oracle.com",
+                "sm_plugin_version": "18.1.6-551",
+                "is_managed": false,
+                "tags": "{\"items\":[],\"totalResults\":0,\"hasMore\":false}",
+                "tools_version": "18.1.6-551",
+                "backup_supported_version": "16.1.5",
+                "service_uri": "https://dbcs.emea.oraclecloud.com:443/paas/service/dbcs/api/v1.1/instances/oscemea005/CS-greybox-MVP-exadata-1",
+                "num_nodes": 2,
+                "level": "PAAS_EXADATA",
+                "edition": "EE_EP",
+                "use_high_performance_storage": false,
+                "subscriptionType": "MONTHLY",
+                "creation_job_id": "12881125",
+                "num_ip_reservations": 2,
+                "backup_destination": "OSS",
+                "cloud_storage_container": "https://oscemea005.storage.oraclecloud.com/v1/Storage-oscemea005/CS-greybox-MVP-storage-container-1",
+                "failover_database": false,
+                "rac_database": true,
+                "byol": false,
+                "current_version": "12.2.0.1.0",
+                "sid": "CSMVP1",
+                "pdbName": "PDB1",
+                "demoPdb": "",
+                "listenerPort": 1521,
+                "dbUser": "",
+                "em_url": "https://141.144.75.162:5501/em",
+                "connect_descriptor": "(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(HOST=141.144.75.166)(PORT=1521)(PROTOCOL=TCP))(ADDRESS=(HOST=141.144.75.167)(PORT=1521)(PROTOCOL=TCP))(ADDRESS=(HOST=141.144.75.168)(PORT=1521)(PROTOCOL=TCP)))(CONNECT_DATA=(SERVICE_NAME=PDB1.em3.oraclecloud.com)))",
+                "connect_descriptor_with_public_ip": "(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(HOST=141.144.75.166)(PORT=1521)(PROTOCOL=TCP))(ADDRESS=(HOST=141.144.75.167)(PORT=1521)(PROTOCOL=TCP))(ADDRESS=(HOST=141.144.75.168)(PORT=1521)(PROTOCOL=TCP)))(CONNECT_DATA=(SERVICE_NAME=PDB1.em3.oraclecloud.com)))",
+                "glassfish_url": "",
+                "charset": "AL32UTF8",
+                "ncharset": "AL16UTF16",
+                "is_clone": false,
+                "clone_supported_version": "17.2.1",
+                "total_shared_storage": 0,
+                "service_associations": [],
+                "subscription_name": "osc150839ex",
+                "snapshot_service": false,
+                "cluster_name": "exacs-005",
+                "cluster_names": "exacs-005",
+                "networking_info": {
+                    "scan_ips": [
+                        "141.144.75.166",
+                        "141.144.75.167",
+                        "141.144.75.168"
+                    ],
+                    "admin_network": "141.144.78.80/28",
+                    "backup_network": "141.144.79.128/28",
+                    "client_network": "141.144.75.160/27",
+                    "computes": [
+                        {
+                            "hostname": "slcldv0306m.em3.oraclecloud.com",
+                            "client_ip": "141.144.75.164",
+                            "virtual_ip": "141.144.75.165",
+                            "admin_ip": "141.144.78.83"
+                        },
+                        {
+                            "hostname": "slcldv0305m.em3.oraclecloud.com",
+                            "client_ip": "141.144.75.162",
+                            "virtual_ip": "141.144.75.163",
+                            "admin_ip": "141.144.78.82"
+                        }
+                    ]
                 },
-                "project_update": {
-                    "id": 727,
-                    "name": "CS-greybox-MVP-AnsibleTower-project-3 (GitHub, new Ansible-only repo)",
-                    "description": "",
-                    "status": "successful",
-                    "failed": false
-                },
-                "unified_job_template": {
-                    "id": 15,
-                    "name": "CS-greybox-MVP-AnsibleTower-jobtemplate-1 (Hello World)",
-                    "description": "",
-                    "unified_job_type": "job"
-                },
-                "project": {
-                    "id": 14,
-                    "name": "CS-greybox-MVP-AnsibleTower-project-3 (GitHub, new Ansible-only repo)",
-                    "description": "",
-                    "status": "successful",
-                    "scm_type": "git"
-                },
-                "created_by": {
-                    "id": 1,
-                    "username": "admin",
-                    "first_name": "",
-                    "last_name": ""
-                },
-                "user_capabilities": {
-                    "start": true,
-                    "delete": true
-                },
-                "labels": {
-                    "count": 0,
-                    "results": []
-                },
-                "extra_credentials": []
-            },
-            "created": "2018-04-05T13:46:49.246Z",
-            "modified": "2018-04-05T13:46:55.710Z",
-            "name": "CS-greybox-MVP-AnsibleTower-jobtemplate-1 (Hello World)",
-            "description": "",
-            "job_type": "run",
-            "inventory": 1,
-            "project": 14,
-            "playbook": "hello_world.yml",
-            "credential": 1,
-            "vault_credential": null,
-            "forks": 0,
-            "limit": "",
-            "verbosity": 0,
-            "extra_vars": "{}",
-            "job_tags": "",
-            "force_handlers": false,
-            "skip_tags": "",
-            "start_at_task": "",
-            "timeout": 0,
-            "use_fact_cache": false,
-            "unified_job_template": 15,
-            "launch_type": "manual",
-            "status": "successful",
-            "failed": false,
-            "started": "2018-04-05T13:46:55.773811Z",
-            "finished": "2018-04-05T13:47:04.659756Z",
-            "elapsed": 8.886,
-            "job_args": "[\"bwrap\", \"--unshare-pid\", \"--dev-bind\", \"/\", \"/\", \"--bind\", \"/tmp/awx_proot_KTLFkT/tmpj0cT2x\", \"/etc/tower\", \"--bind\", \"/tmp/awx_proot_KTLFkT/tmp2ZnGhl\", \"/tmp\", \"--bind\", \"/tmp/awx_proot_KTLFkT/tmpuYQt6g\", \"/var/lib/awx\", \"--bind\", \"/tmp/awx_proot_KTLFkT/tmpmg_RQ7\", \"/var/lib/awx/job_status\", \"--bind\", \"/tmp/awx_proot_KTLFkT/tmp4QCfke\", \"/var/lib/awx/projects\", \"--bind\", \"/tmp/awx_proot_KTLFkT/tmp5T7Bar\", \"/var/log\", \"--ro-bind\", \"/var/lib/awx/venv/ansible\", \"/var/lib/awx/venv/ansible\", \"--ro-bind\", \"/var/lib/awx/venv/awx\", \"/var/lib/awx/venv/awx\", \"--bind\", \"/tmp/awx_725_G_XK_7\", \"/tmp/awx_725_G_XK_7\", \"--bind\", \"/var/lib/awx/projects/_14__cs_greybox_mvp_ansibletower_project_3_github_new_ansible_only_repo\", \"/var/lib/awx/projects/_14__cs_greybox_mvp_ansibletower_project_3_github_new_ansible_only_repo\", \"--chdir\", \"/var/lib/awx/projects/_14__cs_greybox_mvp_ansibletower_project_3_github_new_ansible_only_repo\", \"ansible-playbook\", \"-i\", \"/tmp/awx_725_G_XK_7/tmposEMc9.awxrest.py\", \"-u\", \"admin\", \"-e\", \"{\\\"awx_job_template_name\\\": \\\"CS-greybox-MVP-AnsibleTower-jobtemplate-1 (Hello World)\\\", \\\"tower_project_revision\\\": \\\"7bfa209d2eb5d245e6e1ddfaa68dfb0a5e06339c\\\", \\\"awx_project_revision\\\": \\\"7bfa209d2eb5d245e6e1ddfaa68dfb0a5e06339c\\\", \\\"tower_user_id\\\": 1, \\\"tower_job_template_id\\\": 15, \\\"tower_user_name\\\": \\\"admin\\\", \\\"awx_user_name\\\": \\\"admin\\\", \\\"tower_job_launch_type\\\": \\\"manual\\\", \\\"awx_job_template_id\\\": 15, \\\"awx_job_id\\\": 725, \\\"tower_job_template_name\\\": \\\"CS-greybox-MVP-AnsibleTower-jobtemplate-1 (Hello World)\\\", \\\"tower_job_id\\\": 725, \\\"awx_user_id\\\": 1, \\\"awx_job_launch_type\\\": \\\"manual\\\"}\", \"hello_world.yml\"]",
-            "job_cwd": "/var/lib/awx/projects/_14__cs_greybox_mvp_ansibletower_project_3_github_new_ansible_only_repo",
-            "job_env": {
-                "ANSIBLE_RETRY_FILES_ENABLED": "False",
-                "DJANGO_LIVE_TEST_SERVER_ADDRESS": "localhost:9013-9199",
-                "PROJECT_REVISION": "7bfa209d2eb5d245e6e1ddfaa68dfb0a5e06339c",
-                "_MP_FORK_LOGFILE_": "",
-                "CELERY_LOG_REDIRECT": "1",
-                "USER": "awx",
-                "HOME": "/var/lib/awx",
-                "PATH": "/var/lib/awx/venv/ansible/bin:/var/lib/awx/venv/awx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin",
-                "PS1": "(awx)",
-                "ANSIBLE_CALLBACK_PLUGINS": "/var/lib/awx/venv/awx/lib/python2.7/site-packages/awx/plugins/callback",
-                "LANG": "en_US.UTF-8",
-                "VIRTUAL_ENV": "/var/lib/awx/venv/ansible",
-                "REST_API_TOKEN": "**********",
-                "ANSIBLE_PARAMIKO_RECORD_HOST_KEYS": "False",
-                "_MP_FORK_LOGFORMAT_": "[%(asctime)s: %(levelname)s/%(processName)s] %(message)s",
-                "SHLVL": "0",
-                "MAX_EVENT_RES": "700000",
-                "SUPERVISOR_ENABLED": "1",
-                "CELERY_LOG_FILE": "",
-                "DJANGO_PROJECT_DIR": "/var/lib/awx/venv/awx/lib/python2.7/site-packages",
-                "CACHE": "localhost:11211",
-                "ANSIBLE_HOST_KEY_CHECKING": "False",
-                "AWX_PRIVATE_DATA_DIR": "/tmp/awx_725_G_XK_7",
-                "JOB_ID": "725",
-                "ANSIBLE_STDOUT_CALLBACK": "awx_display",
-                "PYTHONPATH": "/var/lib/awx/venv/ansible/lib/python2.7/site-packages:",
-                "SUPERVISOR_PROCESS_NAME": "awx-celeryd",
-                "SUPERVISOR_SERVER_URL": "unix:///var/run/supervisor/supervisor.sock",
-                "INVENTORY_HOSTVARS": "True",
-                "ANSIBLE_FORCE_COLOR": "True",
-                "REST_API_URL": "http://127.0.0.1:80",
-                "CELERY_LOG_REDIRECT_LEVEL": "WARNING",
-                "CELERY_LOADER": "djcelery.loaders.DjangoLoader",
-                "CELERY_LOG_LEVEL": "10",
-                "INVENTORY_ID": "1",
-                "ANSIBLE_SSH_CONTROL_PATH": "/tmp/awx_725_G_XK_7/cp/%%h%%p%%r",
-                "PWD": "/var/lib/awx",
-                "_MP_FORK_LOGLEVEL_": "10",
-                "DJANGO_SETTINGS_MODULE": "awx.settings.production",
-                "ANSIBLE_VENV_PATH": "/var/lib/awx/venv/ansible",
-                "PROOT_TMP_DIR": "/tmp",
-                "SUPERVISOR_GROUP_NAME": "tower-processes"
-            },
-            "job_explanation": "",
-            "result_stdout": "\r\nPLAY [Hello World Sample] ******************************************************\r\n\r\nTASK [Gathering Facts] *********************************************************\r\nok: [localhost]\r\n\r\nTASK [Hello Message] ***********************************************************\r\nok: [localhost] => {\r\n    \"msg\": \"Hello World! - copied from the ansible-tower-samples GitHub repo\"\r\n}\r\n\r\nPLAY RECAP *********************************************************************\r\nlocalhost                  : ok=2    changed=0    unreachable=0    failed=0   \r\n\r\n",
-            "execution_node": "localhost",
-            "result_traceback": "",
-            "job_template": 15,
-            "passwords_needed_to_start": [],
-            "ask_diff_mode_on_launch": false,
-            "ask_variables_on_launch": false,
-            "ask_limit_on_launch": false,
-            "ask_tags_on_launch": false,
-            "ask_skip_tags_on_launch": false,
-            "ask_job_type_on_launch": false,
-            "ask_verbosity_on_launch": false,
-            "ask_inventory_on_launch": false,
-            "ask_credential_on_launch": false,
-            "allow_simultaneous": false,
-            "artifacts": {},
-            "scm_revision": "7bfa209d2eb5d245e6e1ddfaa68dfb0a5e06339c",
-            "instance_group": 1,
-            "diff_mode": false
+                "jaas_instances_using_service": ""
+            }
+          
+## Start a recovery operation [Q3.1,Q3.2] [POST /database-services/{instance}/backups/recovery]
+
++ Parameters
+
+    + instance: CS-greybox-MVP-exadata-1 (string) - Database instance name.
+    
++ Request Recover to yesterday's backup Q3.1 (application/json)
+
+        {
+            
         }
+
++ Response 200 (application/json)
+
+            {
+            
+            }
+
++ Request Recover to most-recent backup Q3.2 (application/json)
+
+        {
+            
+        }
+
++ Response 200 (application/json)
+
+            {
+            
+            }            
+
+## View all backup operations [GET /database-services/{instance}/backups]
+
++ Parameters
+
+    + instance: CS-greybox-MVP-exadata-1 (string) - Database instance name.
+
++ Response 200 (application/json)
+
+            {
+                "backupList": []
+            }
+            
+## View all recovery operations [GET /database-services/{instance}/backups/recovery/history]
+
++ Parameters
+
+    + instance: CS-greybox-MVP-exadata-1 (string) - Database instance name.
+
++ Response 200 (application/json)
+
+            {
+                "recoveryList": []
+            }

@@ -1,13 +1,40 @@
-FORMAT: 1A
+2FORMAT: 1A
 HOST: http://oc-130-162-65-221.compute.oraclecloud.com:8011/cs-greybox-mvp
 
 # cs-greybox-mvp
 
 API for managing lifecycle of databases on Exadata Cloud Service
 
+## Data Structures
+
+## ExtraVars
+
++ p_host: `cs-greybox-mvp-exa-scan` (string) - Hostname of the container database
++ p_port: 1521 (number) - Port of the container database
++ p_cdb_name: CSMVP1 (string) - Name of the container database
++ p_sysdba_un: sys (string) - DBA user at the root level of the container. 
++ p_sysdba_pw: ## (string) - DBA user password
++ p_pdb_name: mypdb001 (string, optional) - Name of the PDB that is addressed with this request
++ p_state: present (enum[string]) - State we want a PDB to be in
+    + Members
+        + present - Create PDB
+        + absent - Drop PDB
+        + open - Start PDB
+        + closed - Stop PDB
+        + clone - Clone PDB
+        
+## Tablespace
+
++ name : userdata01 (string)
++ size : 100g (string)
 
 ## Manage PDB [/manage-pdb]
 
++ Attributes (object)
+    + extra_vars (ExtraVars)
+        + p_tablespaces (array[Tablespace], optional) - A list of tablespaces can be specified when creating a new PDB. Those tablespaces are created in the new PDB. 
+
+        
 ### Get information about the job [GET]
 
 + Response 200 (application/json)
@@ -58,49 +85,65 @@ API for managing lifecycle of databases on Exadata Cloud Service
         }
 
 ### Launch the job  [L3.1,L3.3,L4.1,L4.2,L5.1,M1.1] [POST]
-
+    
 + Request Create large bronze PDB L3.1 (application/json)
-
-        {
-            "extra_vars":{"p_state":"present"}
-        }
+    
+    + Attributes (object)
+        + extra_vars (ExtraVars)
+            + p_state : present
+            + p_tablespaces (array[object])
+                + (Tablespace)
+                    + name : userdata01
+                    + size : 100g
+                + (Tablespace)
+                    + name : userdata02
+                    + size : 200g
         
 + Request Create small bronze PDB L3.3 (application/json)
 
-        {
-            "extra_vars":{"p_state":"present"}
-        }
-        
+    + Attributes (object)
+        + extra_vars (ExtraVars)
+            + p_state : present
+            + p_tablespaces (array[object])
+                + (Tablespace)
+                    + name : userdata01
+                    + size : 10m
+                + (Tablespace)
+                    + name : userdata02
+                    + size : 20m
+
 + Request Destroy large bronze PDB L4.1 (application/json)
 
-        {
-            "extra_vars":{"p_state":"absent"}
-        }
-      
+    + Attributes (object)
+        + extra_vars (ExtraVars)
+            + p_state : absent
+            
 + Request Destroy small bronze PDB L4.2 (application/json)
 
-        {
-            "extra_vars":{"p_state":"absent"}
-        }  
-        
+    + Attributes (object)
+        + extra_vars (ExtraVars)
+            + p_state : absent
+            
 + Request Clone small bronze PDB L5.1 (application/json)
 
-        {
-            "extra_vars":{"p_state":"clone"}
-        }
-
+    + Attributes (object)
+        + extra_vars (ExtraVars)
+            + p_state : absent
+            + p_pdb_name
+            + p_pdb_source : mypdb002
+            + p_pdb_target : mypdb003
+            
 + Request Start database service M1.1 (application/json)
 
-        {
-            "extra_vars":{"p_state":"open"}
-        }
-        
+    + Attributes (object)
+        + extra_vars (ExtraVars)
+            + p_state : open
+            
 + Request Stop database service M1.1 (application/json)
 
-        {
-            "extra_vars":{"p_state":"close"}
-        }
-
+    + Attributes (object)
+        + extra_vars (ExtraVars)
+            + p_state : closed
 
 + Response 201 (application/json)
 
@@ -257,9 +300,7 @@ API for managing lifecycle of databases on Exadata Cloud Service
 
 + Request (application/json)
 
-        {
-        }
-        
+        { "extra_vars": { "p_host": "cs-greybox-mvp-exa-scan", "p_port": 1521, "p_service": "mypdb001.em3.oraclecloud.com", "p_dba_un": "system", "p_dba_pw": "super45CS#", "p_owner": "SCOTT", "p_table": "CS_GREYBOX_MVP_TABLE_1" } }
 + Response 201 (application/json)
 
         {

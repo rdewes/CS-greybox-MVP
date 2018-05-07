@@ -7,10 +7,10 @@ API for managing lifecycle of databases on Exadata Cloud Service
 
 ## Data Structures
 
-## ExtraVars
+## ExtraVarsManage
 
 + p_host: `cs-greybox-mvp-exa-scan` (string) - Hostname of the container database
-+ p_port: 1521 (number) - Port of the container database
++ p_port: 1521 (number) - Port number of the container database
 + p_cdb_name: CSMVP1 (string) - Name of the container database
 + p_sysdba_un: sys (string) - DBA user at the root level of the container. 
 + p_sysdba_pw: ## (string) - DBA user password
@@ -23,6 +23,28 @@ API for managing lifecycle of databases on Exadata Cloud Service
         + closed - Stop PDB
         + clone - Clone PDB
         
+## ExtraVarsArchive
+
++ p_host: `cs-greybox-mvp-exa-scan` (string) - Hostname of the PDB that contains a table we want to archive
++ p_port: 1521 (number) - Port number of the PDB that contains a table we want to archive
++ p_service: `mypdb001.em3.oraclecloud.com` (string) - Service name of the PDB that contains a table we want to archive
++ p_dba_un: system (string) - DBA user, who can issue the underlying ALTER TABLE command 
++ p_dba_pw: super45CS# (string) - DBA user password
++ p_owner: SCOTT (string) - Database schema containing the table we want to archive
++ p_table (string) - Name of the table we want to archive
+     - Sample :  `CS_GREYBOX_MVP_TABLE_1`
+     
+## ExtraVarsKill
+
++ p_host: `cs-greybox-mvp-exa-scan` (string) - Hostname of the PDB in which there is a session we want to kill
++ p_port: 1521 (number) - Port number of the PDB in which there is a session we want to kill
++ p_service: `mypdb001.em3.oraclecloud.com` (string) - Service name of the PDB in which there is a session we want to kill
++ p_sysdba_un: sys (string) - SYSDBA user, who can issue the underlying ALTER SYSTEM KILL SESSION command 
++ p_sysdba_pw: super45CS# (string) - SYSDBA user password
++ p_sid: 106 (number) - SID of the session we want to kill
++ p_serial: 18335 (number) - Serial number of the session we want to kill - SERIAL# column of v$session
++ p_inst: 2 (number) - Instance of the RAC database to which the session is connected
+     
 ## Tablespace
 
 + name : userdata01 (string)
@@ -30,12 +52,40 @@ API for managing lifecycle of databases on Exadata Cloud Service
 
 ## Manage PDB [/manage-pdb]
 
-+ Attributes (object)
-    + extra_vars (ExtraVars)
-        + p_tablespaces (array[Tablespace], optional) - A list of tablespaces can be specified when creating a new PDB. Those tablespaces are created in the new PDB. 
+#### This resource can be used to:
+<table>
+    <tr>
+        <td> Create large bronze PDB </td>
+        <td> L 3.1 </td>    
+    </tr>
+    <tr>
+        <td> Create small bronze PDB </td>
+        <td> L 3.3 </td> 
+    </tr>
+    <tr>
+        <td> Destroy large bronze PDB </td>
+        <td> L 4.1 </td> 
+    </tr>
+    <tr>
+        <td> Destroy small bronze PDB </td>
+        <td> L 4.2 </td> 
+    </tr>
+    <tr>
+        <td> Clone small bronze PDB </td>
+        <td> L 5.1 </td> 
+    </tr>
+    <tr>
+        <td> Start / stop database service </td>
+        <td> M 1.1 </td> 
+    </tr>
+</table>
 
++ Attributes (object)
+    + extra_vars (ExtraVarsManage) - Job parameters:
+        + p_tablespaces (array[Tablespace], optional) - (optional) A list of tablespaces which can be specified when creating a new PDB. Those tablespaces are created in the new PDB. 
         
 ### Get information about the job [GET]
+Provides information about the job template and its parameters
 
 + Response 200 (application/json)
 
@@ -85,11 +135,12 @@ API for managing lifecycle of databases on Exadata Cloud Service
         }
 
 ### Launch the job  [L3.1,L3.3,L4.1,L4.2,L5.1,M1.1] [POST]
+Executes a job based on the provided request parameters
     
 + Request Create large bronze PDB L3.1 (application/json)
     
     + Attributes (object)
-        + extra_vars (ExtraVars)
+        + extra_vars (ExtraVarsManage)
             + p_state : present
             + p_tablespaces (array[object])
                 + (Tablespace)
@@ -102,7 +153,7 @@ API for managing lifecycle of databases on Exadata Cloud Service
 + Request Create small bronze PDB L3.3 (application/json)
 
     + Attributes (object)
-        + extra_vars (ExtraVars)
+        + extra_vars (ExtraVarsManage)
             + p_state : present
             + p_tablespaces (array[object])
                 + (Tablespace)
@@ -115,19 +166,19 @@ API for managing lifecycle of databases on Exadata Cloud Service
 + Request Destroy large bronze PDB L4.1 (application/json)
 
     + Attributes (object)
-        + extra_vars (ExtraVars)
+        + extra_vars (ExtraVarsManage)
             + p_state : absent
             
 + Request Destroy small bronze PDB L4.2 (application/json)
 
     + Attributes (object)
-        + extra_vars (ExtraVars)
+        + extra_vars (ExtraVarsManage)
             + p_state : absent
             
 + Request Clone small bronze PDB L5.1 (application/json)
 
     + Attributes (object)
-        + extra_vars (ExtraVars)
+        + extra_vars (ExtraVarsManage)
             + p_state : absent
             + p_pdb_name
             + p_pdb_source : mypdb002
@@ -136,13 +187,13 @@ API for managing lifecycle of databases on Exadata Cloud Service
 + Request Start database service M1.1 (application/json)
 
     + Attributes (object)
-        + extra_vars (ExtraVars)
+        + extra_vars (ExtraVarsManage)
             + p_state : open
             
 + Request Stop database service M1.1 (application/json)
 
     + Attributes (object)
-        + extra_vars (ExtraVars)
+        + extra_vars (ExtraVarsManage)
             + p_state : closed
 
 + Response 201 (application/json)
@@ -289,42 +340,412 @@ API for managing lifecycle of databases on Exadata Cloud Service
         
 ## Enable in-database archiving [/enable-database-archive]
 
++ Attributes (object)
+    + extra_vars (ExtraVarsArchive)
+
 ### Get information about the job [GET]
 
 + Response 200 (application/json)
 
         {
+            "can_start_without_user_input": false,
+            "passwords_needed_to_start": [],
+            "ask_variables_on_launch": true,
+            "ask_tags_on_launch": false,
+            "ask_diff_mode_on_launch": false,
+            "ask_skip_tags_on_launch": false,
+            "ask_job_type_on_launch": false,
+            "ask_limit_on_launch": false,
+            "ask_verbosity_on_launch": false,
+            "ask_inventory_on_launch": false,
+            "ask_credential_on_launch": false,
+            "survey_enabled": false,
+            "variables_needed_to_start": [],
+            "credential_needed_to_start": false,
+            "inventory_needed_to_start": false,
+            "job_template_data": {
+                "id": 27,
+                "description": "",
+                "name": "CS-greybox-MVP-AnsibleTower-jobtemplate--enable-database-archive"
+            },
+            "defaults": {
+                "extra_credentials": [],
+                "credential": {
+                    "id": 5,
+                    "name": "CS-greybox-MVP-AnsibleTower-credential-sshkey-1"
+                },
+                "job_tags": "",
+                "extra_vars": "p_host: cs-greybox-mvp-exa-scan\np_port: 1521\np_service: mypdb001.em3.oraclecloud.com\np_dba_un: system\np_dba_pw: 'super45CS#'\np_owner: SCOTT\np_table: CS_GREYBOX_MVP_TABLE_1",
+                "verbosity": 0,
+                "job_type": "run",
+                "diff_mode": false,
+                "skip_tags": "",
+                "limit": "",
+                "inventory": {
+                    "id": 3,
+                    "name": "CS-greybox-MVP-AnsibleTower-Inventory-2 (localhost only)"
+                },
+                "vault_credential": {
+                    "id": null,
+                    "name": null
+                }
+            }
         }
 
 ### Launch the job [L7.1] [POST]
 
 + Request (application/json)
 
-        { "extra_vars": { "p_host": "cs-greybox-mvp-exa-scan", "p_port": 1521, "p_service": "mypdb001.em3.oraclecloud.com", "p_dba_un": "system", "p_dba_pw": "super45CS#", "p_owner": "SCOTT", "p_table": "CS_GREYBOX_MVP_TABLE_1" } }
+    + Attributes (object)
+        + extra_vars (ExtraVarsArchive)
+
 + Response 201 (application/json)
 
         {
+            "ignored_fields": {
+                "extra_vars": {}
+            },
+            "id": 1334,
+            "type": "job",
+            "url": "/api/v2/jobs/1334/",
+            "related": {
+                "created_by": "/api/v2/users/1/",
+                "modified_by": "/api/v2/users/1/",
+                "labels": "/api/v2/jobs/1334/labels/",
+                "inventory": "/api/v2/inventories/3/",
+                "project": "/api/v2/projects/14/",
+                "credential": "/api/v2/credentials/5/",
+                "extra_credentials": "/api/v2/jobs/1334/extra_credentials/",
+                "unified_job_template": "/api/v2/job_templates/27/",
+                "stdout": "/api/v2/jobs/1334/stdout/",
+                "notifications": "/api/v2/jobs/1334/notifications/",
+                "job_host_summaries": "/api/v2/jobs/1334/job_host_summaries/",
+                "job_events": "/api/v2/jobs/1334/job_events/",
+                "activity_stream": "/api/v2/jobs/1334/activity_stream/",
+                "job_template": "/api/v2/job_templates/27/",
+                "cancel": "/api/v2/jobs/1334/cancel/",
+                "relaunch": "/api/v2/jobs/1334/relaunch/"
+            },
+            "summary_fields": {
+                "job_template": {
+                    "id": 27,
+                    "name": "CS-greybox-MVP-AnsibleTower-jobtemplate--enable-database-archive",
+                    "description": ""
+                },
+                "inventory": {
+                    "id": 3,
+                    "name": "CS-greybox-MVP-AnsibleTower-Inventory-2 (localhost only)",
+                    "description": "",
+                    "has_active_failures": false,
+                    "total_hosts": 1,
+                    "hosts_with_active_failures": 0,
+                    "total_groups": 0,
+                    "groups_with_active_failures": 0,
+                    "has_inventory_sources": false,
+                    "total_inventory_sources": 0,
+                    "inventory_sources_with_failures": 0,
+                    "organization_id": 1,
+                    "kind": ""
+                },
+                "credential": {
+                    "id": 5,
+                    "name": "CS-greybox-MVP-AnsibleTower-credential-sshkey-1",
+                    "description": "",
+                    "kind": "ssh",
+                    "cloud": false,
+                    "credential_type_id": 1
+                },
+                "unified_job_template": {
+                    "id": 27,
+                    "name": "CS-greybox-MVP-AnsibleTower-jobtemplate--enable-database-archive",
+                    "description": "",
+                    "unified_job_type": "job"
+                },
+                "project": {
+                    "id": 14,
+                    "name": "CS-greybox-MVP-AnsibleTower-project-3 (GitHub, new Ansible-only repo)",
+                    "description": "",
+                    "status": "successful",
+                    "scm_type": "git"
+                },
+                "created_by": {
+                    "id": 1,
+                    "username": "admin",
+                    "first_name": "",
+                    "last_name": ""
+                },
+                "modified_by": {
+                    "id": 1,
+                    "username": "admin",
+                    "first_name": "",
+                    "last_name": ""
+                },
+                "user_capabilities": {
+                    "start": true,
+                    "delete": true
+                },
+                "labels": {
+                    "count": 0,
+                    "results": []
+                },
+                "extra_credentials": []
+            },
+            "created": "2018-05-07T19:38:53.433Z",
+            "modified": "2018-05-07T19:38:53.482Z",
+            "name": "CS-greybox-MVP-AnsibleTower-jobtemplate--enable-database-archive",
+            "description": "",
+            "job_type": "run",
+            "inventory": 3,
+            "project": 14,
+            "playbook": "CS-greybox-MVP--enable-database-archive.yml",
+            "credential": 5,
+            "vault_credential": null,
+            "forks": 0,
+            "limit": "",
+            "verbosity": 0,
+            "extra_vars": "{\"p_owner\": \"SCOTT\", \"p_dba_un\": \"system\", \"p_dba_pw\": \"super45CS#\", \"p_table\": \"CS_GREYBOX_MVP_TABLE_1\", \"p_host\": \"cs-greybox-mvp-exa-scan\", \"p_service\": \"mypdb001.em3.oraclecloud.com\", \"p_port\": 1521}",
+            "job_tags": "",
+            "force_handlers": false,
+            "skip_tags": "",
+            "start_at_task": "",
+            "timeout": 0,
+            "use_fact_cache": true,
+            "unified_job_template": 27,
+            "launch_type": "manual",
+            "status": "pending",
+            "failed": false,
+            "started": null,
+            "finished": null,
+            "elapsed": 0,
+            "job_args": "",
+            "job_cwd": "",
+            "job_env": {},
+            "job_explanation": "",
+            "result_stdout": "Waiting for results...",
+            "execution_node": "",
+            "result_traceback": "",
+            "job_template": 27,
+            "passwords_needed_to_start": [],
+            "ask_diff_mode_on_launch": false,
+            "ask_variables_on_launch": true,
+            "ask_limit_on_launch": false,
+            "ask_tags_on_launch": false,
+            "ask_skip_tags_on_launch": false,
+            "ask_job_type_on_launch": false,
+            "ask_verbosity_on_launch": false,
+            "ask_inventory_on_launch": false,
+            "ask_credential_on_launch": false,
+            "allow_simultaneous": false,
+            "artifacts": {},
+            "scm_revision": "",
+            "instance_group": null,
+            "diff_mode": false,
+            "job": 1334
         }
             
 ## Kill a session [/kill-database-session]
+
++ Attributes (object)
+    + extra_vars (ExtraVarsKill)
 
 ### Get information about the job [GET]
 
 + Response 200 (application/json)
 
         {
+            "can_start_without_user_input": false,
+            "passwords_needed_to_start": [],
+            "ask_variables_on_launch": true,
+            "ask_tags_on_launch": false,
+            "ask_diff_mode_on_launch": false,
+            "ask_skip_tags_on_launch": false,
+            "ask_job_type_on_launch": false,
+            "ask_limit_on_launch": false,
+            "ask_verbosity_on_launch": false,
+            "ask_inventory_on_launch": false,
+            "ask_credential_on_launch": false,
+            "survey_enabled": false,
+            "variables_needed_to_start": [],
+            "credential_needed_to_start": false,
+            "inventory_needed_to_start": false,
+            "job_template_data": {
+                "id": 26,
+                "description": "",
+                "name": "CS-greybox-MVP-AnsibleTower-jobtemplate--kill-session"
+            },
+            "defaults": {
+                "extra_credentials": [],
+                "credential": {
+                    "id": 5,
+                    "name": "CS-greybox-MVP-AnsibleTower-credential-sshkey-1"
+                },
+                "job_tags": "",
+                "extra_vars": "p_host: cs-greybox-mvp-exa-scan\np_port: 1521\np_service: mypdb001.em3.oraclecloud.com\np_sysdba_un: sys\np_sysdba_pw: 'super45CS#'\np_sid: 1377\np_serial: 27804\np_inst: 1",
+                "verbosity": 0,
+                "job_type": "run",
+                "diff_mode": false,
+                "skip_tags": "",
+                "limit": "",
+                "inventory": {
+                    "id": 3,
+                    "name": "CS-greybox-MVP-AnsibleTower-Inventory-2 (localhost only)"
+                },
+                "vault_credential": {
+                    "id": null,
+                    "name": null
+                }
+            }
         }
 
 ### Launch the job [M1.2] [POST]
 
 + Request (application/json)
 
-        {
-        }
+    + Attributes (object)
+        + extra_vars (ExtraVarsKill)
         
 + Response 201 (application/json)
 
         {
+            "ignored_fields": {
+                "extra_vars": {}
+            },
+            "id": 1340,
+            "type": "job",
+            "url": "/api/v2/jobs/1340/",
+            "related": {
+                "created_by": "/api/v2/users/1/",
+                "modified_by": "/api/v2/users/1/",
+                "labels": "/api/v2/jobs/1340/labels/",
+                "inventory": "/api/v2/inventories/3/",
+                "project": "/api/v2/projects/14/",
+                "credential": "/api/v2/credentials/5/",
+                "extra_credentials": "/api/v2/jobs/1340/extra_credentials/",
+                "unified_job_template": "/api/v2/job_templates/26/",
+                "stdout": "/api/v2/jobs/1340/stdout/",
+                "notifications": "/api/v2/jobs/1340/notifications/",
+                "job_host_summaries": "/api/v2/jobs/1340/job_host_summaries/",
+                "job_events": "/api/v2/jobs/1340/job_events/",
+                "activity_stream": "/api/v2/jobs/1340/activity_stream/",
+                "job_template": "/api/v2/job_templates/26/",
+                "cancel": "/api/v2/jobs/1340/cancel/",
+                "relaunch": "/api/v2/jobs/1340/relaunch/"
+            },
+            "summary_fields": {
+                "job_template": {
+                    "id": 26,
+                    "name": "CS-greybox-MVP-AnsibleTower-jobtemplate--kill-session",
+                    "description": ""
+                },
+                "inventory": {
+                    "id": 3,
+                    "name": "CS-greybox-MVP-AnsibleTower-Inventory-2 (localhost only)",
+                    "description": "",
+                    "has_active_failures": false,
+                    "total_hosts": 1,
+                    "hosts_with_active_failures": 0,
+                    "total_groups": 0,
+                    "groups_with_active_failures": 0,
+                    "has_inventory_sources": false,
+                    "total_inventory_sources": 0,
+                    "inventory_sources_with_failures": 0,
+                    "organization_id": 1,
+                    "kind": ""
+                },
+                "credential": {
+                    "id": 5,
+                    "name": "CS-greybox-MVP-AnsibleTower-credential-sshkey-1",
+                    "description": "",
+                    "kind": "ssh",
+                    "cloud": false,
+                    "credential_type_id": 1
+                },
+                "unified_job_template": {
+                    "id": 26,
+                    "name": "CS-greybox-MVP-AnsibleTower-jobtemplate--kill-session",
+                    "description": "",
+                    "unified_job_type": "job"
+                },
+                "project": {
+                    "id": 14,
+                    "name": "CS-greybox-MVP-AnsibleTower-project-3 (GitHub, new Ansible-only repo)",
+                    "description": "",
+                    "status": "successful",
+                    "scm_type": "git"
+                },
+                "created_by": {
+                    "id": 1,
+                    "username": "admin",
+                    "first_name": "",
+                    "last_name": ""
+                },
+                "modified_by": {
+                    "id": 1,
+                    "username": "admin",
+                    "first_name": "",
+                    "last_name": ""
+                },
+                "user_capabilities": {
+                    "start": true,
+                    "delete": true
+                },
+                "labels": {
+                    "count": 0,
+                    "results": []
+                },
+                "extra_credentials": []
+            },
+            "created": "2018-05-07T20:03:22.364Z",
+            "modified": "2018-05-07T20:03:22.414Z",
+            "name": "CS-greybox-MVP-AnsibleTower-jobtemplate--kill-session",
+            "description": "",
+            "job_type": "run",
+            "inventory": 3,
+            "project": 14,
+            "playbook": "CS-greybox-MVP--kill-session.yml",
+            "credential": 5,
+            "vault_credential": null,
+            "forks": 0,
+            "limit": "",
+            "verbosity": 0,
+            "extra_vars": "{\"p_serial\": 18335, \"p_host\": \"cs-greybox-mvp-exa-scan\", \"p_sysdba_pw\": \"super45CS#\", \"p_service\": \"mypdb001.em3.oraclecloud.com\", \"p_inst\": 2, \"p_sid\": 106, \"p_sysdba_un\": \"sys\", \"p_port\": 1521}",
+            "job_tags": "",
+            "force_handlers": false,
+            "skip_tags": "",
+            "start_at_task": "",
+            "timeout": 0,
+            "use_fact_cache": true,
+            "unified_job_template": 26,
+            "launch_type": "manual",
+            "status": "pending",
+            "failed": false,
+            "started": null,
+            "finished": null,
+            "elapsed": 0,
+            "job_args": "",
+            "job_cwd": "",
+            "job_env": {},
+            "job_explanation": "",
+            "result_stdout": "Waiting for results...",
+            "execution_node": "",
+            "result_traceback": "",
+            "job_template": 26,
+            "passwords_needed_to_start": [],
+            "ask_diff_mode_on_launch": false,
+            "ask_variables_on_launch": true,
+            "ask_limit_on_launch": false,
+            "ask_tags_on_launch": false,
+            "ask_skip_tags_on_launch": false,
+            "ask_job_type_on_launch": false,
+            "ask_verbosity_on_launch": false,
+            "ask_inventory_on_launch": false,
+            "ask_credential_on_launch": false,
+            "allow_simultaneous": false,
+            "artifacts": {},
+            "scm_revision": "",
+            "instance_group": null,
+            "diff_mode": false,
+            "job": 1340
         }
         
 ## Jobs [/jobs/{id}]
@@ -526,8 +947,6 @@ API for managing lifecycle of databases on Exadata Cloud Service
                 "diff_mode": false
             }
             
-
-
 ## Database Services [/database-services]
 
 ### List all databases in domain [M5.1] [GET]
@@ -627,7 +1046,7 @@ API for managing lifecycle of databases on Exadata Cloud Service
 
 + Parameters
 
-    + instance: CS-greybox-MVP-exadata-1 (string) - Database instance name.
+    + instance: `CS-greybox-MVP-exadata-1` (string) - Name of the Database Cloud Service instance.
 
 + Response 200 (application/json)
 
@@ -706,7 +1125,10 @@ API for managing lifecycle of databases on Exadata Cloud Service
                 "jaas_instances_using_service": ""
             }
           
-### Start a recovery operation [Q3.1,Q3.2] [POST /database-services/{instance}/backups/recovery]
+### Start a recovery operation [Q3.1,Q3.2] [POST /database-services/{instance}/recovery]
+
+Starts a recovery operation on a Database Cloud Service instance to a point in time specified by timestamp.
+Returns REST URI that can be used to check the progress and completion of the recovery operation.
 
 + Parameters
 
@@ -714,23 +1136,28 @@ API for managing lifecycle of databases on Exadata Cloud Service
     
 + Request Recover to yesterday's backup Q3.1 (application/json)
 
-        {
-        }
+    + Attributes
+        + timestamp: `02-MAY-2018 02:00:00` (string)
 
-+ Response 200 (application/json)
++ Response 202 (application/json)
 
-        {
-        }
+    + Header
+        
+            Location : https://dbcs.emea.oraclecloud.com:443/paas/service/dbcs/api/v1.1/instances/oscemea005/status/recovery/job/13763523
 
 + Request Recover to most-recent backup Q3.2 (application/json)
 
-        {
-        }
+    Starts a recovery operation on a Database Cloud Service instance using the latest backup.
+    Returns REST URI that can be used to check the progress and completion of the recovery operation.
+
+    + Attributes
+        + latest: yes (string)
 
 + Response 200 (application/json)
 
-        {
-        }      
+    + Header
+        
+            Location : https://dbcs.emea.oraclecloud.com:443/paas/service/dbcs/api/v1.1/instances/oscemea005/status/recovery/job/13763780
 
 
 ### View all backup operations [GET /database-services/{instance}/backups]

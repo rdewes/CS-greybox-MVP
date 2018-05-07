@@ -750,7 +750,7 @@ Executes a job based on the provided request parameters
         
 ## Jobs [/jobs/{id}]
 
-### Get runtime information about a launched job [GET]
+### Get runtime information about an executed job [GET]
 
 + Parameters
 
@@ -951,6 +951,8 @@ Executes a job based on the provided request parameters
 
 ### List all databases in domain [M5.1] [GET]
 
+Returns information about all Database Cloud Service instances. You can view the full set of details by specifying the ?outputLevel=verbose query parameter.
+
 + Response 200 (application/json)
 
             {
@@ -1044,9 +1046,11 @@ Executes a job based on the provided request parameters
 
 ### Retrieve details of a database [I4.2] [GET /database-services/{instance}]
 
+Returns information about a Database Cloud Service instance.
+
 + Parameters
 
-    + instance: `CS-greybox-MVP-exadata-1` (string) - Name of the Database Cloud Service instance.
+    + instance: `CS-greybox-MVP-exadata-1` (string) - Name of the Database Cloud Service instance
 
 + Response 200 (application/json)
 
@@ -1132,7 +1136,7 @@ Returns REST URI that can be used to check the progress and completion of the re
 
 + Parameters
 
-    + instance: `CS-greybox-MVP-exadata-1` (string) - Database instance name
+    + instance: `CS-greybox-MVP-exadata-1` (string) - Name of the Database Cloud Service instance
     
 + Request Recover to yesterday's backup Q3.1 (application/json)
 
@@ -1162,24 +1166,102 @@ Returns REST URI that can be used to check the progress and completion of the re
 
 ### View all backup operations [GET /database-services/{instance}/backups]
 
+Returns a list of all available backups for a Database Cloud Service instance, including both scheduled and on-demand backups.
+
 + Parameters
 
-    + instance: `CS-greybox-MVP-exadata-1` (string) - Database instance name.
+    + instance: `CS-greybox-MVP-exadata-1` (string) - Name of the Database Cloud Service instance
 
 + Response 200 (application/json)
 
         {
-            "backupList": []
+          "backupList": [
+            {
+              "backupCompleteDate": "05-May-2018 01:24:30 UTC",
+              "dbTag": "TAG20180505T012430",
+              "status": "COMPLETED",
+              "keepForever": false
+            },
+            {
+              "backupCompleteDate": "04-May-2018 01:12:38 UTC",
+              "dbTag": "TAG20180504T011238",
+              "status": "COMPLETED",
+              "keepForever": false
+            }
+          ]
         }
             
 ### View all recovery operations [GET /database-services/{instance}/backups/recovery/history]
 
+Returns a list of recovery operations performed on a Database Cloud Service instance.
+
 + Parameters
 
-    + instance: `CS-greybox-MVP-exadata-1` (string) - Database instance name.
+    + instance: `CS-greybox-MVP-exadata-1` (string) - Name of the Database Cloud Service instance.
 
 + Response 200 (application/json)
 
         {
-            "recoveryList": []
+          "recoveryList": [
+            {
+              "recoveryStartDate": "04-May-2018 09:44:26 UTC",
+              "status": "COMPLETED",
+              "recoveryCompleteDate": "04-May-2018 10:06:06 UTC",
+              "latest": "latest"
+            },
+            {
+              "recoveryStartDate": "02-May-2018 08:30:37 UTC",
+              "status": "COMPLETED",
+              "recoveryCompleteDate": "02-May-2018 08:47:08 UTC",
+              "timestamp": "02-MAY-2018 02:00:00"
+            }
+          ]
+        }
+        
+        
+### View specific recovery operation [GET /database-services/status/recovery/job/{jobID}]
+
+Returns progress and completion of the specific recovery operation performed on a Database Cloud Service instance.
+
++ Parameters
+
+    + jobID: 13763780 (number) - ID of the recovery operation job
+
++ Response 200 (application/json)
+
+        {
+            "service_name": "CS-greybox-MVP-exadata-1",
+            "service_uuid": "9090140103BE4FF0B724808766C862D1",
+            "version": "12.2.0.1",
+            "status": "Maintenance",
+            "description": "CS-greybox-MVP-exadata-1",
+            "identity_domain": "oscemea005",
+            "creation_time": "2018-04-10T08:37:36.144+0000",
+            "last_modified_time": "2018-05-07T20:54:44.743+0000",
+            "created_by": "richard.dewes@oracle.com",
+            "sm_plugin_version": "18.1.6-551",
+            "is_managed": false,
+            "tags": "{\"items\":[],\"totalResults\":0,\"hasMore\":false}",
+            "tools_version": "18.1.6-551",
+            "backup_supported_version": "16.1.5",
+            "service_uri": "https://dbcs.emea.oraclecloud.com:443/paas/service/dbcs/api/v1.1/instances/oscemea005/CS-greybox-MVP-exadata-1",
+            "message": [
+                "Initiating recovery operation..",
+                "Recovery of database done using timestamp:02-MAY-2018 02:00:00",
+                "Recovery operation in progress.."
+            ],
+            "job_start_date": "Mon May 07 20:54:44 GMT 2018",
+            "job_status": "InProgress",
+            "job_operation": "recover-dbaas-service",
+            "job_request_params": {
+                "timestamp": "02-MAY-2018 02:00:00",
+                "operationName": "recover-dbaas-service",
+                "tenant": "oscemea005",
+                "serviceInstance": "CS-greybox-MVP-exadata-1",
+                "validateInstanceStatus": "true",
+                "serviceVersion": "12.2.0.1",
+                "serviceType": "dbaas",
+                "recoveryId": "1525726484587",
+                "namespace": "dbaas"
+            }
         }

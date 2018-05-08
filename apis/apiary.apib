@@ -1,4 +1,4 @@
-2FORMAT: 1A
+F2FORMAT: 1A
 HOST: http://oc-130-162-65-221.compute.oraclecloud.com:8011/cs-greybox-mvp
 
 # cs-greybox-mvp
@@ -1044,13 +1044,13 @@ Returns information about all Database Cloud Service instances. You can view the
                 ]
             }
 
-### Retrieve details of a database [I4.2] [GET /database-services/{instance}]
+### Retrieve details of a database [I4.2] [GET /database-services/{serviceID}]
 
 Returns information about a Database Cloud Service instance.
 
 + Parameters
 
-    + instance: `CS-greybox-MVP-exadata-1` (string) - Name of the Database Cloud Service instance
+    + serviceID: `CS-greybox-MVP-exadata-1` (string) - Name of the Database Cloud Service instance
 
 + Response 200 (application/json)
 
@@ -1129,16 +1129,18 @@ Returns information about a Database Cloud Service instance.
                 "jaas_instances_using_service": ""
             }
           
-### Start a recovery operation [Q3.1,Q3.2] [POST /database-services/{instance}/recovery]
+### Start a recovery operation [Q3.1,Q3.2] [POST /database-services/{serviceID}/recovery]
 
-Starts a recovery operation on a Database Cloud Service instance to a point in time specified by timestamp.
-Returns REST URI that can be used to check the progress and completion of the recovery operation.
+Starts a recovery operation on a Database Cloud Service instance using the latest backup or to a point in time specified by timestamp.
 
 + Parameters
 
-    + instance: `CS-greybox-MVP-exadata-1` (string) - Name of the Database Cloud Service instance
+    + serviceID: `CS-greybox-MVP-exadata-1` (string) - Name of the Database Cloud Service instance
     
 + Request Recover to yesterday's backup Q3.1 (application/json)
+
+    Starts a recovery operation on a Database Cloud Service instance to a point in time specified by timestamp.
+    Returns REST URI that can be used to check the progress and completion of the recovery operation.
 
     + Attributes
         + timestamp: `02-MAY-2018 02:00:00` (string)
@@ -1164,13 +1166,13 @@ Returns REST URI that can be used to check the progress and completion of the re
             Location : https://dbcs.emea.oraclecloud.com:443/paas/service/dbcs/api/v1.1/instances/oscemea005/status/recovery/job/13763780
 
 
-### View all backup operations [GET /database-services/{instance}/backups]
+### View all backup operations [GET /database-services/{serviceID}/backups]
 
 Returns a list of all available backups for a Database Cloud Service instance, including both scheduled and on-demand backups.
 
 + Parameters
 
-    + instance: `CS-greybox-MVP-exadata-1` (string) - Name of the Database Cloud Service instance
+    + serviceID: `CS-greybox-MVP-exadata-1` (string) - Name of the Database Cloud Service instance
 
 + Response 200 (application/json)
 
@@ -1191,13 +1193,13 @@ Returns a list of all available backups for a Database Cloud Service instance, i
           ]
         }
             
-### View all recovery operations [GET /database-services/{instance}/backups/recovery/history]
+### View all recovery operations [GET /database-services/{serviceID}/backups/recovery/history]
 
 Returns a list of recovery operations performed on a Database Cloud Service instance.
 
 + Parameters
 
-    + instance: `CS-greybox-MVP-exadata-1` (string) - Name of the Database Cloud Service instance.
+    + serviceID: `CS-greybox-MVP-exadata-1` (string) - Name of the Database Cloud Service instance.
 
 + Response 200 (application/json)
 
